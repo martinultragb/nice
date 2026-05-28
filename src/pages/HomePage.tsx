@@ -5,6 +5,8 @@ import { useWorkoutStore } from '../store/workoutStore';
 import { useTemplateStore } from '../store/templateStore';
 import { useExerciseStore } from '../store/exerciseStore';
 import { WorkoutRecord, ExerciseRecord, SetRecord } from '../types';
+import CountdownTimer from '../components/CountdownTimer';
+import RestTimeSettings from '../components/RestTimeSettings';
 
 export default function HomePage() {
   const { getTodayWorkout, addWorkout, updateWorkout } = useWorkoutStore();
@@ -17,10 +19,25 @@ export default function HomePage() {
   const [exerciseInputs, setExerciseInputs] = useState<
     Record<string, { weight: string; reps: string }[]>
   >({});
+  // 倒计时相关状态
+  const [restTime, setRestTime] = useState<number>(() => {
+    const saved = localStorage.getItem('restTime');
+    return saved ? parseInt(saved, 10) : 60;
+  });
+  const [showCountdown, setShowCountdown] = useState(false);
+  const [countdownKey, setCountdownKey] = useState(0);
+  const [lastCompletedSet, setLastCompletedSet] = useState<{
+    exerciseId: string;
+    setIndex: number;
+  } | null>(null);
 
   useEffect(() => {
     initializeDefaultExercises();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('restTime', restTime.toString());
+  }, [restTime]);
 
   const startTraining = (templateId?: string, templateName?: string) => {
     const template = templateId ? templates.find((t) => t.id === templateId) : null;
@@ -119,7 +136,29 @@ export default function HomePage() {
     if (!exercise) return;
 
     const set = exercise.sets[setIndex];
+    const wasCompleted = set.completed;
+    
     updateSet(exerciseId, setIndex, { completed: !set.completed });
+
+    // 如果是标记为完成，显示倒计时
+    if (!wasCompleted) {
+      setLastCompletedSet({ exerciseId, setIndex });
+      setShowCountdown(true);
+      setCountdownKey(prev => prev + 1); // 重新触发倒计时
+    }
+  };
+
+  const handleCountdownComplete = () => {
+    // 倒计时完成时播放提示音（如果需要的话）
+    // 这里可以添加震动或声音提示
+    if (navigator.vibrate) {
+      navigator.vibrate([100, 50, 100]); // 震动模式
+    }
+  };
+
+  const handleCountdownReset = () => {
+    setShowCountdown(false);
+    setLastCompletedSet(null);
   };
 
   const addSetToExercise = (exerciseId: string) => {
@@ -213,11 +252,30 @@ export default function HomePage() {
                 {format(new Date(), 'yyyy年MM月dd日')}
               </p>
             </div>
-            <div className="text-right">
-              <p className="text-xl font-bold text-[#07C160]">{totalSets}</p>
-              <p className="text-[10px] text-gray-400">已完成组数</p>
+            <div className="flex items-center gap-3">
+              <RestTimeSettings
+                currentSeconds={restTime}
+                onUpdate={setRestTime}
+              />
+              <div className="text-right">
+                <p className="text-xl font-bold text-[#07C160]">{totalSets}</p>
+                <p className="text-[10px] text-gray-400">已完成组数</p>
+              </div>
             </div>
           </header>
+
+          {/* 倒计时显示 */}
+          {showCountdown && (
+            <div className="mb-4">
+              <CountdownTimer
+                key={countdownKey}
+                initialSeconds={restTime}
+                onComplete={handleCountdownComplete}
+                autoStart={true}
+                onReset={handleCountdownReset}
+              />
+            </div>
+          )}
 
           <div className="space-y-3">
             {currentWorkout.exercises.map((exerciseRecord) => {

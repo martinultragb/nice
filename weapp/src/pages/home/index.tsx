@@ -7,6 +7,8 @@ import templateStore from '../../store/templateStore';
 import workoutStore from '../../store/workoutStore';
 import userStore from '../../store/userStore';
 import type { WorkoutRecord, ExerciseRecord, SetRecord } from '../../types';
+import CountdownTimer from '../../components/CountdownTimer';
+import RestTimeSettings from '../../components/RestTimeSettings';
 
 export default function Home() {
   const [isTraining, setIsTraining] = useState(false);
@@ -14,6 +16,21 @@ export default function Home() {
   const [currentWorkout, setCurrentWorkout] = useState<WorkoutRecord | null>(null);
   const [exerciseInputs, setExerciseInputs] = useState<Record<string, { weight: string; reps: string }[]>>({});
   const [showLoginModal, setShowLoginModal] = useState(false);
+  // 倒计时相关状态
+  const [restTime, setRestTime] = useState<number>(() => {
+    try {
+      const saved = wx.getStorageSync('restTime');
+      return saved ? parseInt(saved, 10) : 60;
+    } catch (e) {
+      return 60;
+    }
+  });
+  const [showCountdown, setShowCountdown] = useState(false);
+  const [countdownKey, setCountdownKey] = useState(0);
+  const [lastCompletedSet, setLastCompletedSet] = useState<{
+    exerciseId: string;
+    setIndex: number;
+  } | null>(null);
 
   const user = userStore.getUser();
 
@@ -24,6 +41,14 @@ export default function Home() {
       setShowLoginModal(true);
     }
   }, []);
+
+  useEffect(() => {
+    try {
+      wx.setStorageSync('restTime', restTime.toString());
+    } catch (e) {
+      console.error('保存休息时间失败', e);
+    }
+  }, [restTime]);
 
   const handleLogin = async () => {
     const result = await userStore.login();
@@ -150,7 +175,30 @@ export default function Home() {
     const exercise = currentWorkout.exercises.find((ex) => ex.exerciseId === exerciseId);
     if (!exercise) return;
     const set = exercise.sets[setIndex];
+    const wasCompleted = set.completed;
     updateSet(exerciseId, setIndex, { completed: !set.completed });
+
+    // 如果是标记为完成，显示倒计时
+    if (!wasCompleted) {
+      setLastCompletedSet({ exerciseId, setIndex });
+      setShowCountdown(true);
+      setCountdownKey(prev => prev + 1); // 重新触发倒计时
+    }
+  };
+
+  const handleCountdownComplete = () => {
+    // 倒计时完成时播放提示音和震动
+    wx.showToast({
+      title: '休息结束！',
+      icon: 'success',
+      duration: 2000
+    });
+    wx.vibrateShort();
+  };
+
+  const handleCountdownReset = () => {
+    setShowCountdown(false);
+    setLastCompletedSet(null);
   };
 
   const addSetToExercise = (exerciseId: string) => {
@@ -239,11 +287,30 @@ export default function Home() {
                 {format(new Date(), 'yyyy年MM月dd日')}
               </Text>
             </View>
-            <View className="text-right">
-              <Text className="text-xl font-bold text-primary">{totalSets}</Text>
-              <Text className="text-[10px] text-gray-400 block">已完成组数</Text>
+            <View className="flex items-center gap-3">
+              <RestTimeSettings
+                currentSeconds={restTime}
+                onUpdate={setRestTime}
+              />
+              <View className="text-right">
+                <Text className="text-xl font-bold text-primary">{totalSets}</Text>
+                <Text className="text-[10px] text-gray-400 block">已完成组数</Text>
+              </View>
             </View>
           </View>
+
+          {/* 倒计时显示 */}
+          {showCountdown && (
+            <View className="mb-4">
+              <CountdownTimer
+                key={countdownKey}
+                initialSeconds={restTime}
+                onComplete={handleCountdownComplete}
+                autoStart={true}
+                onReset={handleCountdownReset}
+              />
+            </View>
+          )}
 
           <View className="space-y-3">
             {currentWorkout.exercises.map((exerciseRecord) => {
