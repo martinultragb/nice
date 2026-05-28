@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+page {
+  background-color: #F7F8FA;
+}
