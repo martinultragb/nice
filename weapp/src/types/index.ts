@@ -62,3 +62,19 @@ export const MUSCLE_GROUP_ICONS: Record<MuscleGroup, string> = {
   core: '🎯',
   fullbody: '🏃'
 };
+
+export interface User {
+  id: string;
+  openId: string;
+  nickname: string;
+  avatarUrl: string;
+  role: 'user' | 'admin';
+  createdAt: string;
+  lastLoginAt: string;
+}
+
+export interface AuthState {
+  user: User | null;
+  isLoggedIn: boolean;
+  isAdmin: boolean;
+}
