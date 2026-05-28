@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, X, Check, Dumbbell } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Check, Dumbbell, Shield } from 'lucide-react';
 import { useExerciseStore } from '../store/exerciseStore';
 import { Exercise, MuscleGroup, MUSCLE_GROUP_LABELS, MUSCLE_GROUP_ICONS } from '../types';
+import { useNavigate } from 'react-router-dom';
 
 const muscleGroups: MuscleGroup[] = ['chest', 'back', 'shoulder', 'arm', 'leg', 'core', 'fullbody'];
 
 export default function AdminPage() {
+  const navigate = useNavigate();
   const { exercises, addExercise, updateExercise, deleteExercise, initializeDefaultExercises } = useExerciseStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingExercise, setEditingExercise] = useState<Exercise | null>(null);
@@ -65,12 +67,21 @@ export default function AdminPage() {
           <div>
             <p className="text-xs text-gray-400">管理你的力量训练动作库</p>
           </div>
-          <button
-            onClick={openAddModal}
-            className="w-10 h-10 bg-[#07C160] rounded-full flex items-center justify-center"
-          >
-            <Plus size={20} className="text-white" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => navigate('/admin/dashboard')}
+              className="flex items-center gap-1 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200"
+            >
+              <Shield size={14} />
+              管理后台
+            </button>
+            <button
+              onClick={openAddModal}
+              className="w-10 h-10 bg-[#07C160] rounded-full flex items-center justify-center"
+            >
+              <Plus size={20} className="text-white" />
+            </button>
+          </div>
         </header>
 
         {exercises.length === 0 ? (
