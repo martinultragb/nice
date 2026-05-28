@@ -37,67 +37,66 @@ export default function RecordsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
-      <div className="max-w-md mx-auto px-4 pt-6">
-        <header className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">训练记录</h1>
-          <p className="text-gray-500 text-sm mt-1">查看历史训练数据</p>
+    <div className="pb-6">
+      <div className="px-4 pt-5">
+        <header className="mb-5">
+          <p className="text-xs text-gray-400">查看历史训练数据</p>
         </header>
 
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <button
               onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              className="p-1.5"
             >
-              <ChevronLeft size={20} className="text-gray-600" />
+              <ChevronLeft size={18} className="text-gray-500" />
             </button>
-            <span className="font-semibold text-gray-800 min-w-[120px] text-center">
+            <span className="font-medium text-gray-800 min-w-[100px] text-center text-sm">
               {format(currentMonth, 'yyyy年 MMMM', { locale: zhCN })}
             </span>
             <button
               onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+              className="p-1.5"
             >
-              <ChevronRight size={20} className="text-gray-600" />
+              <ChevronRight size={18} className="text-gray-500" />
             </button>
           </div>
 
-          <div className="flex items-center gap-1 bg-gray-100 rounded-full p-1">
+          <div className="flex items-center gap-1 bg-[#F7F8FA] rounded-lg p-0.5">
             <button
               onClick={() => setViewMode('calendar')}
-              className={`p-2 rounded-full transition-all ${
+              className={`p-1.5 rounded-lg transition-all ${
                 viewMode === 'calendar'
-                  ? 'bg-white shadow text-orange-500'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'bg-white text-[#07C160]'
+                  : 'text-gray-400'
               }`}
             >
-              <Calendar size={18} />
+              <Calendar size={16} />
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-2 rounded-full transition-all ${
+              className={`p-1.5 rounded-lg transition-all ${
                 viewMode === 'list'
-                  ? 'bg-white shadow text-orange-500'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'bg-white text-[#07C160]'
+                  : 'text-gray-400'
               }`}
             >
-              <List size={18} />
+              <List size={16} />
             </button>
           </div>
         </div>
 
         {viewMode === 'calendar' && (
           <>
-            <div className="grid grid-cols-7 gap-1 mb-2">
+            <div className="grid grid-cols-7 gap-1 mb-1">
               {['一', '二', '三', '四', '五', '六', '日'].map((day) => (
-                <div key={day} className="text-center text-xs font-medium text-gray-400 py-2">
+                <div key={day} className="text-center text-[10px] text-gray-400 py-1.5">
                   {day}
                 </div>
               ))}
             </div>
 
-            <div className="grid grid-cols-7 gap-1 mb-6">
+            <div className="grid grid-cols-7 gap-1 mb-5">
               {calendarDays.map((day) => {
                 const dayWorkout = getWorkoutForDate(day);
                 const hasWorkout = !!dayWorkout;
@@ -109,18 +108,16 @@ export default function RecordsPage() {
                     key={day.toISOString()}
                     onClick={() => setSelectedDate(day)}
                     className={`
-                      relative aspect-square flex items-center justify-center rounded-xl text-sm font-medium
-                      transition-all duration-200
+                      relative aspect-square flex items-center justify-center rounded-lg text-xs font-medium
                       ${!isCurrentMonth ? 'text-gray-300' : 'text-gray-700'}
-                      ${isToday(day) ? 'bg-orange-500 text-white' : ''}
-                      ${isSelected && !isToday(day) ? 'ring-2 ring-orange-500 ring-offset-2' : ''}
-                      ${hasWorkout && !isToday(day) ? 'bg-green-100 text-green-600' : ''}
-                      hover:bg-orange-50
+                      ${isToday(day) ? 'bg-[#07C160] text-white' : ''}
+                      ${isSelected && !isToday(day) ? 'ring-2 ring-[#07C160]' : ''}
+                      ${hasWorkout && !isToday(day) ? 'bg-[#E8FBF0] text-[#07C160]' : ''}
                     `}
                   >
                     {format(day, 'd')}
                     {hasWorkout && (
-                      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-green-500 rounded-full" />
+                      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#07C160] rounded-full" />
                     )}
                   </button>
                 );
@@ -128,14 +125,16 @@ export default function RecordsPage() {
             </div>
 
             {selectedDate && (
-              <div className="mb-6">
-                <h3 className="font-bold text-gray-800 mb-3">
+              <div className="mb-5">
+                <h3 className="font-medium text-gray-800 mb-3 text-sm">
                   {isToday(selectedDate) ? '今日' : format(selectedDate, 'M月d日')} 的训练
                 </h3>
                 {!selectedDateWorkout ? (
-                  <div className="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100">
-                    <div className="text-4xl mb-2">💪</div>
-                    <p className="text-gray-500 text-sm">这天没有训练记录</p>
+                  <div className="bg-white rounded-xl p-6 text-center">
+                    <div className="w-12 h-12 mx-auto mb-3 bg-[#F7F8FA] rounded-full flex items-center justify-center">
+                      <Dumbbell size={24} className="text-gray-400" />
+                    </div>
+                    <p className="text-gray-400 text-xs">这天没有训练记录</p>
                   </div>
                 ) : (
                   <WorkoutCard workout={selectedDateWorkout} exercises={exercises} onDelete={handleDelete} />
@@ -147,14 +146,16 @@ export default function RecordsPage() {
 
         {viewMode === 'list' && (
           <div>
-            <h3 className="font-bold text-gray-800 mb-3">所有记录 ({sortedRecords.length})</h3>
+            <h3 className="font-medium text-gray-800 mb-3 text-sm">所有记录 ({sortedRecords.length})</h3>
             {sortedRecords.length === 0 ? (
-              <div className="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100">
-                <div className="text-4xl mb-2">📝</div>
-                <p className="text-gray-500 text-sm">还没有训练记录</p>
+              <div className="bg-white rounded-xl p-6 text-center">
+                <div className="w-12 h-12 mx-auto mb-3 bg-[#F7F8FA] rounded-full flex items-center justify-center">
+                  <List size={24} className="text-gray-400" />
+                </div>
+                <p className="text-gray-400 text-xs">还没有训练记录</p>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {sortedRecords.map((workout) => (
                   <WorkoutCard key={workout.id} workout={workout} exercises={exercises} onDelete={handleDelete} />
                 ))}
@@ -179,19 +180,19 @@ function WorkoutCard({ workout, exercises, onDelete }: { workout: any; exercises
   );
 
   return (
-    <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 group">
+    <div className="bg-white rounded-xl p-4">
       <div className="flex items-start justify-between mb-3">
         <div>
-          <h4 className="font-bold text-gray-800">
+          <h4 className="font-medium text-gray-800 text-sm">
             {workout.templateName || '自由训练'}
           </h4>
-          <p className="text-sm text-gray-400">{format(new Date(workout.date), 'yyyy年M月d日')}</p>
+          <p className="text-xs text-gray-400">{format(new Date(workout.date), 'yyyy年M月d日')}</p>
         </div>
         <button
           onClick={() => onDelete(workout.id)}
-          className="p-2 rounded-full text-gray-300 hover:text-red-500 hover:bg-red-50 transition-all opacity-0 group-hover:opacity-100"
+          className="p-1.5 text-gray-300 hover:text-red-500"
         >
-          <Trash2 size={18} />
+          <Trash2 size={16} />
         </button>
       </div>
 
@@ -200,12 +201,12 @@ function WorkoutCard({ workout, exercises, onDelete }: { workout: any; exercises
           const exercise = exercises.find((e) => e.id === ex.exerciseId);
           const completedSets = ex.sets.filter((s: any) => s.completed).length;
           return (
-            <div key={index} className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg">
+            <div key={index} className="flex items-center justify-between py-1.5 px-2.5 bg-[#F7F8FA] rounded-lg">
               <div className="flex items-center gap-2">
-                <Dumbbell size={16} className="text-orange-400" />
-                <span className="font-medium text-gray-700">{exercise?.name || '未知动作'}</span>
+                <Dumbbell size={14} className="text-[#07C160]" />
+                <span className="font-medium text-gray-700 text-xs">{exercise?.name || '未知动作'}</span>
               </div>
-              <span className="text-sm text-gray-500">
+              <span className="text-xs text-gray-500">
                 {completedSets}/{ex.sets.length} 组
               </span>
             </div>
@@ -213,12 +214,12 @@ function WorkoutCard({ workout, exercises, onDelete }: { workout: any; exercises
         })}
       </div>
 
-      <div className="flex items-center gap-4 pt-3 border-t border-gray-100">
-        <div className="text-sm">
+      <div className="flex items-center gap-4 pt-2 border-t border-gray-100">
+        <div className="text-xs">
           <span className="text-gray-400">总组数: </span>
           <span className="font-medium text-gray-700">{totalSets}</span>
         </div>
-        <div className="text-sm">
+        <div className="text-xs">
           <span className="text-gray-400">训练容量: </span>
           <span className="font-medium text-gray-700">{Math.round(totalVolume).toLocaleString()} kg</span>
         </div>

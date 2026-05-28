@@ -106,86 +106,79 @@ export default function TemplatesPage() {
   }, {} as Record<string, typeof exercises>);
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
-      <div className="max-w-md mx-auto px-4 pt-6">
-        <header className="mb-6 flex items-center justify-between">
+    <div className="pb-6">
+      <div className="px-4 pt-5">
+        <header className="mb-5 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">训练模板</h1>
-            <p className="text-gray-500 text-sm mt-1">创建和管理你的训练计划</p>
+            <p className="text-xs text-gray-400">创建和管理你的训练计划</p>
           </div>
           <button
             onClick={openAddModal}
-            className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center shadow-lg shadow-orange-200 hover:shadow-xl transition-all active:scale-95"
+            className="w-10 h-10 bg-[#07C160] rounded-full flex items-center justify-center"
           >
-            <Plus size={24} className="text-white" />
+            <Plus size={20} className="text-white" />
           </button>
         </header>
 
         {templates.length === 0 ? (
-          <div className="bg-white rounded-2xl p-8 text-center shadow-sm border border-gray-100">
-            <div className="text-6xl mb-4">📋</div>
-            <h3 className="font-bold text-gray-800 mb-2">还没有模板</h3>
-            <p className="text-gray-500 text-sm mb-4">创建你的第一个训练模板</p>
+          <div className="bg-white rounded-xl p-8 text-center">
+            <div className="w-16 h-16 mx-auto mb-4 bg-[#E8FBF0] rounded-full flex items-center justify-center">
+              <ClipboardList size={32} className="text-[#07C160]" />
+            </div>
+            <h3 className="font-medium text-gray-800 mb-2">还没有模板</h3>
+            <p className="text-gray-400 text-xs mb-4">创建你的第一个训练模板</p>
             <button
               onClick={openAddModal}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-full shadow-lg shadow-orange-200"
+              className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#07C160] text-white font-medium rounded-lg"
             >
-              <Plus size={20} />
+              <Plus size={18} />
               创建模板
             </button>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {templates.map((template) => (
               <div
                 key={template.id}
-                className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 group"
+                className="bg-white rounded-xl p-4"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl flex items-center justify-center">
-                      <ClipboardList size={24} className="text-orange-600" />
+                    <div className="w-10 h-10 bg-[#E8FBF0] rounded-lg flex items-center justify-center">
+                      <ClipboardList size={20} className="text-[#07C160]" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-800">{template.name}</h3>
-                      <p className="text-sm text-gray-400">
+                      <h3 className="font-medium text-gray-800">{template.name}</h3>
+                      <p className="text-xs text-gray-400">
                         {template.exercises.length} 个动作
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex gap-1">
                     <button
                       onClick={() => openEditModal(template)}
-                      className="p-2 rounded-full hover:bg-gray-100 text-gray-500 hover:text-orange-500 transition-colors"
+                      className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
                     >
-                      <Edit2 size={18} />
+                      <Edit2 size={16} className="text-gray-500" />
                     </button>
                     <button
                       onClick={() => handleDelete(template)}
-                      className="p-2 rounded-full hover:bg-red-50 text-gray-500 hover:text-red-500 transition-colors"
+                      className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
                     >
-                      <Trash2 size={18} />
+                      <Trash2 size={16} className="text-red-500" />
                     </button>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  {template.exercises.map((ex, index) => {
+                <div className="flex flex-wrap gap-2">
+                  {template.exercises.map((ex) => {
                     const exercise = exercises.find((e) => e.id === ex.exerciseId);
                     return (
-                      <div
+                      <span
                         key={ex.exerciseId}
-                        className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg"
+                        className="px-2 py-1 bg-[#F7F8FA] rounded text-xs text-gray-500"
                       >
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm text-gray-400">{index + 1}.</span>
-                          <span className="font-medium text-gray-700">
-                            {exercise?.name || '未知动作'}
-                          </span>
-                        </div>
-                        <span className="text-sm text-gray-500">
-                          {ex.targetSets}组 × {ex.targetReps}次
-                        </span>
-                      </div>
+                        {exercise?.name}
+                      </span>
                     );
                   })}
                 </div>
@@ -196,134 +189,97 @@ export default function TemplatesPage() {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 backdrop-blur-sm">
-          <div className="w-full max-w-md bg-white rounded-t-3xl animate-slide-up max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white px-5 pt-5 pb-3 border-b border-gray-100 z-10">
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
+          <div className="w-full max-w-md bg-white rounded-t-2xl max-h-[85vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white px-5 pt-4 pb-3 border-b border-gray-100">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-gray-800">
-                  {editingTemplate ? '编辑模板' : '创建模板'}
+                <h2 className="text-lg font-medium text-gray-800">
+                  {editingTemplate ? '编辑模板' : '新建模板'}
                 </h2>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                  className="p-1.5"
                 >
-                  <X size={24} className="text-gray-500" />
+                  <X size={20} className="text-gray-500" />
                 </button>
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-5 space-y-5">
+            <form onSubmit={handleSubmit} className="p-5 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  模板名称
-                </label>
+                <label className="block text-xs text-gray-500 mb-1.5">模板名称</label>
                 <input
                   type="text"
                   value={templateName}
                   onChange={(e) => setTemplateName(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all"
-                  placeholder="例如：胸部训练日"
-                  required
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-[#07C160]"
+                  placeholder="例如：周一胸部训练"
                 />
               </div>
 
               <div>
-                <div className="flex items-center justify-between mb-3">
-                  <label className="text-sm font-medium text-gray-700">动作列表</label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs text-gray-500">动作列表</label>
                   <button
                     type="button"
-                    onClick={() => setShowExerciseSelector(!showExerciseSelector)}
-                    className="text-sm text-orange-500 font-medium flex items-center gap-1"
+                    onClick={() => setShowExerciseSelector(true)}
+                    className="text-xs text-[#07C160] flex items-center gap-1"
                   >
-                    <Plus size={16} />
+                    <Plus size={14} />
                     添加动作
                   </button>
                 </div>
 
-                {showExerciseSelector && (
-                  <div className="mb-4 bg-gray-50 rounded-2xl p-4 max-h-64 overflow-y-auto">
-                    {Object.entries(groupedExercises).map(([group, groupExercises]) => (
-                      <div key={group} className="mb-3">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span>{MUSCLE_GROUP_ICONS[group as keyof typeof MUSCLE_GROUP_ICONS]}</span>
-                          <span className="text-sm font-medium text-gray-600">
-                            {MUSCLE_GROUP_LABELS[group as keyof typeof MUSCLE_GROUP_LABELS]}
-                          </span>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2">
-                          {groupExercises.map((ex) => (
-                            <button
-                              key={ex.id}
-                              type="button"
-                              onClick={() => addExerciseToTemplate(ex.id, ex.name)}
-                              className="text-left px-3 py-2 bg-white rounded-lg border border-gray-200 hover:border-orange-300 hover:bg-orange-50 transition-all text-sm"
-                            >
-                              {ex.name}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
                 {selectedExercises.length === 0 ? (
-                  <div className="text-center py-8 text-gray-400 text-sm">
+                  <div className="text-center py-6 text-gray-400 text-xs">
                     点击上方按钮添加动作
                   </div>
                 ) : (
-                  <div className="space-y-3">
-                    {selectedExercises.map((ex, index) => (
+                  <div className="space-y-2">
+                    {selectedExercises.map((ex) => (
                       <div
                         key={ex.exerciseId}
-                        className="bg-gray-50 rounded-xl p-4 space-y-3"
+                        className="bg-[#F7F8FA] rounded-lg p-3"
                       >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <span className="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
-                              {index + 1}
-                            </span>
-                            <span className="font-medium text-gray-800">
-                              {ex.exerciseName}
-                            </span>
-                          </div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-gray-800">
+                            {ex.exerciseName}
+                          </span>
                           <button
                             type="button"
                             onClick={() => removeExerciseFromTemplate(ex.exerciseId)}
-                            className="text-gray-400 hover:text-red-500 transition-colors"
+                            className="text-red-400 hover:text-red-500"
                           >
-                            <X size={18} />
+                            <Trash2 size={14} />
                           </button>
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          <div>
-                            <label className="text-xs text-gray-500 mb-1 block">组数</label>
+                        <div className="flex gap-3">
+                          <div className="flex-1">
+                            <label className="block text-[10px] text-gray-400 mb-1">组数</label>
                             <input
                               type="number"
+                              min={1}
                               value={ex.targetSets}
                               onChange={(e) =>
                                 updateExerciseInTemplate(ex.exerciseId, {
-                                  targetSets: parseInt(e.target.value) || 1,
+                                  targetSets: parseInt(e.target.value) || 3,
                                 })
                               }
-                              className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-center focus:ring-2 focus:ring-orange-500 outline-none"
-                              min="1"
-                              max="10"
+                              className="w-full px-2 py-1.5 bg-white border border-gray-200 rounded text-center text-sm"
                             />
                           </div>
-                          <div>
-                            <label className="text-xs text-gray-500 mb-1 block">每组次数</label>
+                          <div className="flex-1">
+                            <label className="block text-[10px] text-gray-400 mb-1">每组次数</label>
                             <input
                               type="number"
+                              min={1}
                               value={ex.targetReps}
                               onChange={(e) =>
                                 updateExerciseInTemplate(ex.exerciseId, {
-                                  targetReps: parseInt(e.target.value) || 1,
+                                  targetReps: parseInt(e.target.value) || 10,
                                 })
                               }
-                              className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-center focus:ring-2 focus:ring-orange-500 outline-none"
-                              min="1"
-                              max="50"
+                              className="w-full px-2 py-1.5 bg-white border border-gray-200 rounded text-center text-sm"
                             />
                           </div>
                         </div>
@@ -336,12 +292,63 @@ export default function TemplatesPage() {
               <button
                 type="submit"
                 disabled={!templateName.trim() || selectedExercises.length === 0}
-                className="w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-2xl shadow-lg shadow-orange-200 hover:shadow-xl transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full py-3 bg-[#07C160] text-white font-medium rounded-lg disabled:opacity-50"
               >
-                <Check size={20} />
                 {editingTemplate ? '保存修改' : '创建模板'}
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {showExerciseSelector && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
+          <div className="w-full max-w-md bg-white rounded-t-2xl max-h-[70vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white px-5 pt-4 pb-3 border-b border-gray-100">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-medium text-gray-800">选择动作</h2>
+                <button
+                  onClick={() => setShowExerciseSelector(false)}
+                  className="p-1.5"
+                >
+                  <X size={20} className="text-gray-500" />
+                </button>
+              </div>
+            </div>
+            <div className="p-5">
+              {Object.entries(groupedExercises).map(([group, exs]) => (
+                <div key={group} className="mb-4">
+                  <h3 className="text-xs text-gray-400 mb-2">
+                    {MUSCLE_GROUP_LABELS[group as keyof typeof MUSCLE_GROUP_LABELS]}
+                  </h3>
+                  <div className="space-y-1">
+                    {exs.map((ex) => {
+                      const isSelected = selectedExercises.find((sel) => sel.exerciseId === ex.id);
+                      return (
+                        <button
+                          key={ex.id}
+                          onClick={() =>
+                            isSelected
+                              ? removeExerciseFromTemplate(ex.id)
+                              : addExerciseToTemplate(ex.id, ex.name)
+                          }
+                          className={`w-full px-3 py-2.5 text-left flex items-center justify-between rounded-lg ${
+                            isSelected ? 'bg-[#E8FBF0]' : 'bg-[#F7F8FA]'
+                          }`}
+                        >
+                          <span className="text-sm text-gray-800">{ex.name}</span>
+                          {isSelected ? (
+                            <CheckCircle2 size={18} className="text-[#07C160]" />
+                          ) : (
+                            <Circle size={18} className="text-gray-300" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
