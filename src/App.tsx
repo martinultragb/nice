@@ -6,24 +6,13 @@ import RecordsPage from './pages/RecordsPage';
 import StatsPage from './pages/StatsPage';
 import AdminPage from './pages/AdminPage';
 import AdminDashboard from './pages/AdminDashboard';
-import LoginPage from './pages/LoginPage';
 import BottomNav from './components/BottomNav';
 import Header from './components/Header';
-import authService from './services/authService';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  const checkAuth = () => {
-    const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token);
-    setIsLoading(false);
-  };
+  // 暂时禁用登录检查，让应用可以直接访问
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   if (isLoading) {
     return (
@@ -34,10 +23,6 @@ function App() {
         </div>
       </div>
     );
-  }
-
-  if (!isLoggedIn) {
-    return <LoginPage onLogin={() => setIsLoggedIn(true)} />;
   }
 
   return (
