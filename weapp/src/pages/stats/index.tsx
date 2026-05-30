@@ -52,25 +52,49 @@ export default function Stats() {
   );
 
   const stats = [
-    { label: '连续打卡', value: streak, unit: '天', bgColor: 'bg-primary-light', icon: '🏆' },
-    { label: '本周组数', value: weeklyStats.totalSets, unit: '组', bgColor: 'bg-blue-100', icon: '💪' },
-    { label: '本周容量', value: Math.round(weeklyStats.totalWeight / 1000), unit: '吨', bgColor: 'bg-orange-100', icon: '🔥' },
-    { label: '累计组数', value: totalSets, unit: '组', bgColor: 'bg-primary-light', icon: '🎯' },
+    { label: '连续打卡', value: streak, unit: '天', bgColor: '#dbeafe', icon: '🏆' },
+    { label: '本周组数', value: weeklyStats.totalSets, unit: '组', bgColor: '#dbeafe', icon: '💪' },
+    { label: '本周容量', value: Math.round(weeklyStats.totalWeight / 1000), unit: '吨', bgColor: '#dbeafe', icon: '🔥' },
+    { label: '累计组数', value: totalSets, unit: '组', bgColor: '#dbeafe', icon: '🎯' },
   ];
 
   if (records.length === 0) {
     return (
-      <View className="pb-6 bg-background">
-        <View className="px-4 pt-5">
-          <View className="mb-5">
-            <Text className="text-xs text-gray-400">查看训练数据分析</Text>
+      <View style={{ paddingBottom: '24rpx', backgroundColor: '#f3f4f6' }}>
+        <View style={{ padding: '32rpx', paddingTop: '40rpx' }}>
+          <View style={{ marginBottom: '40rpx' }}>
+            <Text style={{ fontSize: '28rpx', color: '#9ca3af' }}>查看训练数据分析</Text>
           </View>
-          <View className="bg-white rounded-xl p-8 text-center">
-            <View className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-              <Text className="text-gray-400 text-3xl">📊</Text>
+          <View style={{
+            backgroundColor: 'white',
+            borderRadius: '24rpx',
+            padding: '64rpx',
+            textAlign: 'center'
+          }}>
+            <View style={{
+              width: '128rpx',
+              height: '128rpx',
+              margin: '0 auto 32rpx',
+              backgroundColor: '#f3f4f6',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <Text style={{ color: '#9ca3af', fontSize: '60rpx' }}>📊</Text>
             </View>
-            <Text className="font-medium text-gray-800 mb-2 block text-sm">还没有数据</Text>
-            <Text className="text-gray-400 text-xs">开始训练后，这里将展示你的数据分析</Text>
+            <Text style={{
+              fontWeight: '500',
+              color: '#1f2937',
+              marginBottom: '16rpx',
+              display: 'block',
+              fontSize: '28rpx'
+            }}>
+              还没有数据
+            </Text>
+            <Text style={{ color: '#9ca3af', fontSize: '24rpx' }}>
+              开始训练后，这里将展示你的数据分析
+            </Text>
           </View>
         </View>
       </View>
@@ -78,86 +102,235 @@ export default function Stats() {
   }
 
   return (
-    <View className="pb-6 bg-background">
-      <View className="px-4 pt-5">
-        <View className="mb-5">
-          <Text className="text-xs text-gray-400">查看你的训练数据分析</Text>
+    <View style={{ paddingBottom: '24rpx', backgroundColor: '#f3f4f6' }}>
+      <View style={{ padding: '32rpx', paddingTop: '40rpx' }}>
+        <View style={{ marginBottom: '40rpx' }}>
+          <Text style={{ fontSize: '28rpx', color: '#9ca3af' }}>查看你的训练数据分析</Text>
         </View>
 
-        <View className="grid grid-cols-2 gap-2.5 mb-5">
+        <View style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '20rpx',
+          marginBottom: '40rpx'
+        }}>
           {stats.map((stat) => (
-            <View key={stat.label} className="bg-white rounded-xl p-4">
-              <View className={`w-9 h-9 ${stat.bgColor} rounded-lg flex items-center justify-center mb-2.5`}>
-                <Text className="text-xl">{stat.icon}</Text>
+            <View 
+              key={stat.label} 
+              style={{
+                backgroundColor: 'white',
+                borderRadius: '24rpx',
+                padding: '32rpx'
+              }}
+            >
+              <View style={{
+                width: '72rpx',
+                height: '72rpx',
+                backgroundColor: stat.bgColor,
+                borderRadius: '16rpx',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '20rpx'
+              }}>
+                <Text style={{ fontSize: '40rpx' }}>{stat.icon}</Text>
               </View>
-              <Text className="text-xs text-gray-400 mb-1 block">{stat.label}</Text>
-              <Text className="text-xl font-bold text-gray-800">
+              <Text style={{
+                fontSize: '24rpx',
+                color: '#9ca3af',
+                marginBottom: '8rpx',
+                display: 'block'
+              }}>
+                {stat.label}
+              </Text>
+              <Text style={{ fontSize: '40rpx', fontWeight: 'bold', color: '#1f2937' }}>
                 {stat.value.toLocaleString()}
-                <Text className="text-xs font-normal text-gray-400 ml-0.5">{stat.unit}</Text>
+                <Text style={{ fontSize: '24rpx', fontWeight: 'normal', color: '#9ca3af', marginLeft: '4rpx' }}>
+                  {stat.unit}
+                </Text>
               </Text>
             </View>
           ))}
         </View>
 
-        <View className="bg-white rounded-xl p-4 mb-3">
-          <View className="flex items-center gap-2 mb-3">
-            <Text className="text-primary">📈</Text>
-            <Text className="font-medium text-gray-800 text-sm">本周训练趋势</Text>
+        <View style={{
+          backgroundColor: 'white',
+          borderRadius: '24rpx',
+          padding: '32rpx',
+          marginBottom: '24rpx'
+        }}>
+          <View style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '16rpx',
+            marginBottom: '24rpx'
+          }}>
+            <Text style={{ color: '#3b82f6' }}>📈</Text>
+            <Text style={{ fontWeight: '500', color: '#1f2937', fontSize: '28rpx' }}>
+              本周训练趋势
+            </Text>
           </View>
-          <View className="space-y-2">
-            {weeklyStats.dailyStats.map((day, index) => (
-              <View key={day.date} className="flex items-center justify-between">
-                <Text className="text-xs text-gray-600 w-12">{day.date.slice(5)}</Text>
-                <View className="flex-1 mx-2">
-                  <View className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <View
-                      className="h-full bg-primary rounded-full"
-                      style={{ width: `${Math.min((day.totalSets / Math.max(...weeklyStats.dailyStats.map(d => d.totalSets), 1)) * 100, 100)}%` }}
-                    />
+          <View style={{ gap: '16rpx', display: 'flex', flexDirection: 'column' }}>
+            {weeklyStats.dailyStats.map((day, index) => {
+              const maxSets = Math.max(...weeklyStats.dailyStats.map(d => d.totalSets));
+              const percentage = maxSets > 0 ? Math.min((day.totalSets / maxSets) * 100, 100) : 0;
+              return (
+                <View 
+                  key={day.date} 
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <Text style={{
+                    fontSize: '24rpx',
+                    color: '#4b5563',
+                    width: '96rpx'
+                  }}>
+                    {day.date.slice(5)}
+                  </Text>
+                  <View style={{
+                    flex: 1,
+                    marginLeft: '16rpx',
+                    marginRight: '16rpx'
+                  }}>
+                    <View style={{
+                      height: '8rpx',
+                      backgroundColor: '#f3f4f6',
+                      borderRadius: '9999px',
+                      overflow: 'hidden'
+                    }}>
+                      <View
+                        style={{
+                          height: '100%',
+                          backgroundColor: '#3b82f6',
+                          borderRadius: '9999px',
+                          width: `${percentage}%`
+                        }}
+                      />
+                    </View>
                   </View>
-                </View>
-                <Text className="text-xs font-medium text-gray-800 w-8 text-right">{day.totalSets}组</Text>
-              </View>
-            ))}
-          </View>
-        </View>
-
-        <View className="bg-white rounded-xl p-4 mb-3">
-          <View className="flex items-center gap-2 mb-3">
-            <Text className="text-primary">📅</Text>
-            <Text className="font-medium text-gray-800 text-sm">肌群训练分布</Text>
-          </View>
-          <View className="space-y-2.5">
-            {muscleGroupData.map((item) => (
-              <View key={item.name} className="flex items-center justify-between">
-                <View className="flex items-center gap-2">
-                  <Text className="text-base">{item.icon}</Text>
-                  <Text className="text-xs text-gray-600">{item.name}</Text>
-                </View>
-                <View className="flex items-center gap-2">
-                  <View className="h-1.5 bg-gray-100 rounded-full overflow-hidden" style={{ width: '70px' }}>
-                    <View
-                      className="h-full bg-primary rounded-full"
-                      style={{ width: `${(item.value / Math.max(...muscleGroupData.map((d) => d.value))) * 100}%` }}
-                    />
-                  </View>
-                  <Text className="text-xs font-medium text-gray-800 w-12 text-right">
-                    {item.value} 次
+                  <Text style={{
+                    fontSize: '24rpx',
+                    fontWeight: '500',
+                    color: '#1f2937',
+                    width: '64rpx',
+                    textAlign: 'right'
+                  }}>
+                    {day.totalSets}组
                   </Text>
                 </View>
-              </View>
-            ))}
+              );
+            })}
           </View>
         </View>
 
-        <View className="bg-primary rounded-xl p-4">
-          <View className="text-center text-white">
-            <Text className="text-white/70 text-xs mb-2 block">累计训练容量</Text>
-            <Text className="text-3xl font-bold">
-              {(totalVolume / 1000).toFixed(1)}
-              <Text className="text-lg ml-1.5">吨</Text>
+        <View style={{
+          backgroundColor: 'white',
+          borderRadius: '24rpx',
+          padding: '32rpx',
+          marginBottom: '24rpx'
+        }}>
+          <View style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '16rpx',
+            marginBottom: '24rpx'
+          }}>
+            <Text style={{ color: '#3b82f6' }}>📅</Text>
+            <Text style={{ fontWeight: '500', color: '#1f2937', fontSize: '28rpx' }}>
+              肌群训练分布
             </Text>
-            <Text className="text-white/60 text-xs mt-1.5 block">
+          </View>
+          <View style={{ gap: '20rpx', display: 'flex', flexDirection: 'column' }}>
+            {muscleGroupData.map((item) => {
+              const maxValue = Math.max(...muscleGroupData.map((d) => d.value));
+              const percentage = maxValue > 0 ? (item.value / maxValue) * 100 : 0;
+              return (
+                <View 
+                  key={item.name} 
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <View style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: '16rpx'
+                  }}>
+                    <Text style={{ fontSize: '32rpx' }}>{item.icon}</Text>
+                    <Text style={{ fontSize: '24rpx', color: '#4b5563' }}>{item.name}</Text>
+                  </View>
+                  <View style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: '16rpx'
+                  }}>
+                    <View style={{
+                      height: '12rpx',
+                      backgroundColor: '#f3f4f6',
+                      borderRadius: '9999px',
+                      overflow: 'hidden',
+                      width: '140rpx'
+                    }}>
+                      <View
+                        style={{
+                          height: '100%',
+                          backgroundColor: '#3b82f6',
+                          borderRadius: '9999px',
+                          width: `${percentage}%`
+                        }}
+                      />
+                    </View>
+                    <Text style={{
+                      fontSize: '24rpx',
+                      fontWeight: '500',
+                      color: '#1f2937',
+                      width: '96rpx',
+                      textAlign: 'right'
+                    }}>
+                      {item.value} 次
+                    </Text>
+                  </View>
+                </View>
+              );
+            })}
+          </View>
+        </View>
+
+        <View style={{
+          backgroundColor: '#3b82f6',
+          borderRadius: '24rpx',
+          padding: '32rpx'
+        }}>
+          <View style={{ textAlign: 'center', color: 'white' }}>
+            <Text style={{
+              color: 'rgba(255, 255, 255, 0.7)',
+              fontSize: '24rpx',
+              marginBottom: '16rpx',
+              display: 'block'
+            }}>
+              累计训练容量
+            </Text>
+            <Text style={{ fontSize: '60rpx', fontWeight: 'bold' }}>
+              {(totalVolume / 1000).toFixed(1)}
+              <Text style={{ fontSize: '32rpx', marginLeft: '12rpx' }}>吨</Text>
+            </Text>
+            <Text style={{
+              color: 'rgba(255, 255, 255, 0.6)',
+              fontSize: '24rpx',
+              marginTop: '12rpx',
+              display: 'block'
+            }}>
               共 {totalRecords} 次训练 · {totalSets} 组
             </Text>
           </View>

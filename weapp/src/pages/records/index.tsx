@@ -51,28 +51,64 @@ export default function Records() {
     );
 
     return (
-      <View key={workout.id} className="bg-white rounded-xl p-4 mb-3">
-        <View className="flex items-start justify-between mb-3">
+      <View 
+        key={workout.id} 
+        style={{
+          backgroundColor: 'white',
+          borderRadius: '24rpx',
+          padding: '32rpx',
+          marginBottom: '24rpx'
+        }}
+      >
+        <View style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          marginBottom: '24rpx'
+        }}>
           <View>
-            <Text className="font-medium text-gray-800 text-sm">{workout.templateName || '自由训练'}</Text>
-            <Text className="text-xs text-gray-400">{format(new Date(workout.date), 'yyyy年M月d日')}</Text>
+            <Text style={{ fontWeight: '500', color: '#1f2937', fontSize: '28rpx' }}>
+              {workout.templateName || '自由训练'}
+            </Text>
+            <Text style={{ fontSize: '24rpx', color: '#9ca3af' }}>
+              {format(new Date(workout.date), 'yyyy年M月d日')}
+            </Text>
           </View>
           <View onClick={() => handleDelete(workout.id)}>
-            <Text className="text-gray-300">🗑</Text>
+            <Text style={{ color: '#d1d5db' }}>🗑</Text>
           </View>
         </View>
 
-        <View className="space-y-2 mb-3">
+        <View style={{ gap: '16rpx', marginBottom: '24rpx', display: 'flex', flexDirection: 'column' }}>
           {workout.exercises.map((ex: any, index: number) => {
             const exercise = exercises.find((e) => e.id === ex.exerciseId);
             const completedSets = ex.sets.filter((s: any) => s.completed).length;
             return (
-              <View key={index} className="flex items-center justify-between py-1.5 px-2.5 bg-gray-50 rounded-lg">
-                <View className="flex items-center gap-2">
-                  <Text className="text-primary">💪</Text>
-                  <Text className="font-medium text-gray-700 text-xs">{exercise?.name || '未知动作'}</Text>
+              <View 
+                key={index} 
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '12rpx 20rpx',
+                  backgroundColor: '#f3f4f6',
+                  borderRadius: '16rpx'
+                }}
+              >
+                <View style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: '16rpx'
+                }}>
+                  <Text style={{ color: '#3b82f6' }}>💪</Text>
+                  <Text style={{ fontWeight: '500', color: '#374151', fontSize: '24rpx' }}>
+                    {exercise?.name || '未知动作'}
+                  </Text>
                 </View>
-                <Text className="text-xs text-gray-500">
+                <Text style={{ fontSize: '24rpx', color: '#6b7280' }}>
                   {completedSets}/{ex.sets.length} 组
                 </Text>
               </View>
@@ -80,14 +116,23 @@ export default function Records() {
           })}
         </View>
 
-        <View className="flex items-center gap-4 pt-2 border-t border-gray-100">
-          <View className="text-xs">
-            <Text className="text-gray-400">总组数: </Text>
-            <Text className="font-medium text-gray-700">{totalSets}</Text>
+        <View style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: '32rpx',
+          paddingTop: '16rpx',
+          borderTop: '2rpx solid #f3f4f6'
+        }}>
+          <View style={{ fontSize: '24rpx' }}>
+            <Text style={{ color: '#9ca3af' }}>总组数: </Text>
+            <Text style={{ fontWeight: '500', color: '#374151' }}>{totalSets}</Text>
           </View>
-          <View className="text-xs">
-            <Text className="text-gray-400">训练容量: </Text>
-            <Text className="font-medium text-gray-700">{Math.round(totalVolume).toLocaleString()} kg</Text>
+          <View style={{ fontSize: '24rpx' }}>
+            <Text style={{ color: '#9ca3af' }}>训练容量: </Text>
+            <Text style={{ fontWeight: '500', color: '#374151' }}>
+              {Math.round(totalVolume).toLocaleString()} kg
+            </Text>
           </View>
         </View>
       </View>
@@ -95,73 +140,158 @@ export default function Records() {
   };
 
   return (
-    <View className="pb-6 bg-background">
-      <View className="px-4 pt-5">
-        <View className="mb-5">
-          <Text className="text-xs text-gray-400">查看历史训练数据</Text>
+    <View style={{ paddingBottom: '24rpx', backgroundColor: '#f3f4f6' }}>
+      <View style={{ padding: '32rpx', paddingTop: '40rpx' }}>
+        <View style={{ marginBottom: '40rpx' }}>
+          <Text style={{ fontSize: '28rpx', color: '#9ca3af' }}>查看历史训练数据</Text>
         </View>
 
-        <View className="flex items-center justify-between mb-4">
-          <View className="flex items-center gap-1">
-            <View className="p-1.5" onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}>
-              <Text className="text-gray-500">◀</Text>
+        <View style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '32rpx'
+        }}>
+          <View style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '4rpx'
+          }}>
+            <View 
+              style={{ padding: '12rpx' }}
+              onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
+            >
+              <Text style={{ color: '#6b7280' }}>◀</Text>
             </View>
-            <Text className="font-medium text-gray-800 min-w-[100px] text-center text-sm">
+            <Text style={{
+              fontWeight: '500',
+              color: '#1f2937',
+              minWidth: '200rpx',
+              textAlign: 'center',
+              fontSize: '28rpx'
+            }}>
               {format(currentMonth, 'yyyy年M月')}
             </Text>
-            <View className="p-1.5" onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}>
-              <Text className="text-gray-500">▶</Text>
+            <View 
+              style={{ padding: '12rpx' }}
+              onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
+            >
+              <Text style={{ color: '#6b7280' }}>▶</Text>
             </View>
           </View>
 
-          <View className="flex items-center gap-1 bg-gray-100 rounded-lg p-0.5">
+          <View style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '4rpx',
+            backgroundColor: '#f3f4f6',
+            borderRadius: '16rpx',
+            padding: '4rpx'
+          }}>
             <View
-              className={`p-1.5 rounded-lg ${viewMode === 'calendar' ? 'bg-white text-primary' : 'text-gray-400'}`}
+              style={{
+                padding: '12rpx',
+                borderRadius: '16rpx',
+                backgroundColor: viewMode === 'calendar' ? 'white' : 'transparent',
+                color: viewMode === 'calendar' ? '#3b82f6' : '#9ca3af'
+              }}
               onClick={() => setViewMode('calendar')}
             >
-              <Text className="text-sm">📅</Text>
+              <Text style={{ fontSize: '28rpx' }}>📅</Text>
             </View>
             <View
-              className={`p-1.5 rounded-lg ${viewMode === 'list' ? 'bg-white text-primary' : 'text-gray-400'}`}
+              style={{
+                padding: '12rpx',
+                borderRadius: '16rpx',
+                backgroundColor: viewMode === 'list' ? 'white' : 'transparent',
+                color: viewMode === 'list' ? '#3b82f6' : '#9ca3af'
+              }}
               onClick={() => setViewMode('list')}
             >
-              <Text className="text-sm">📋</Text>
+              <Text style={{ fontSize: '28rpx' }}>📋</Text>
             </View>
           </View>
         </View>
 
         {viewMode === 'calendar' && (
           <>
-            <View className="grid grid-cols-7 gap-1 mb-1">
+            <View style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(7, 1fr)',
+              gap: '4rpx',
+              marginBottom: '4rpx'
+            }}>
               {['一', '二', '三', '四', '五', '六', '日'].map((day) => (
-                <View key={day} className="text-center text-[10px] text-gray-400 py-1.5">
+                <View key={day} style={{
+                  textAlign: 'center',
+                  fontSize: '20rpx',
+                  color: '#9ca3af',
+                  paddingTop: '12rpx',
+                  paddingBottom: '12rpx'
+                }}>
                   {day}
                 </View>
               ))}
             </View>
 
-            <View className="grid grid-cols-7 gap-1 mb-5">
+            <View style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(7, 1fr)',
+              gap: '4rpx',
+              marginBottom: '40rpx'
+            }}>
               {calendarDays.map((day) => {
                 const dayWorkout = getWorkoutForDate(day);
                 const hasWorkout = !!dayWorkout;
                 const isCurrentMonth = day.getMonth() === currentMonth.getMonth();
                 const isSelected = selectedDate && isSameDay(day, selectedDate);
 
+                let bgColor = 'transparent';
+                let textColor = isCurrentMonth ? '#374151' : '#d1d5db';
+                
+                if (isToday(day)) {
+                  bgColor = '#3b82f6';
+                  textColor = 'white';
+                } else if (isSelected) {
+                  bgColor = '#dbeafe';
+                  textColor = '#3b82f6';
+                } else if (hasWorkout) {
+                  bgColor = '#dbeafe';
+                  textColor = '#3b82f6';
+                }
+
                 return (
                   <View
                     key={day.toISOString()}
-                    className={`
-                      relative aspect-square flex items-center justify-center rounded-lg text-xs font-medium
-                      ${!isCurrentMonth ? 'text-gray-300' : 'text-gray-700'}
-                      ${isToday(day) ? 'bg-primary text-white' : ''}
-                      ${isSelected && !isToday(day) ? 'ring-2 ring-primary' : ''}
-                      ${hasWorkout && !isToday(day) ? 'bg-primary-light text-primary' : ''}
-                    `}
+                    style={{
+                      position: 'relative',
+                      aspectRatio: '1/1',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: '16rpx',
+                      fontSize: '24rpx',
+                      fontWeight: '500',
+                      backgroundColor: bgColor,
+                      color: textColor
+                    }}
                     onClick={() => setSelectedDate(day)}
                   >
                     {format(day, 'd')}
                     {hasWorkout && (
-                      <View className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />
+                      <View style={{
+                        position: 'absolute',
+                        bottom: '8rpx',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        width: '8rpx',
+                        height: '8rpx',
+                        backgroundColor: '#3b82f6',
+                        borderRadius: '50%'
+                      }} />
                     )}
                   </View>
                 );
@@ -169,16 +299,38 @@ export default function Records() {
             </View>
 
             {selectedDate && (
-              <View className="mb-5">
-                <Text className="font-medium text-gray-800 mb-3 text-sm block">
+              <View style={{ marginBottom: '40rpx' }}>
+                <Text style={{
+                  fontWeight: '500',
+                  color: '#1f2937',
+                  marginBottom: '24rpx',
+                  display: 'block',
+                  fontSize: '28rpx'
+                }}>
                   {isToday(selectedDate) ? '今日' : format(selectedDate, 'M月d日')} 的训练
                 </Text>
                 {!selectedDateWorkout ? (
-                  <View className="bg-white rounded-xl p-6 text-center">
-                    <View className="w-12 h-12 mx-auto mb-3 bg-gray-100 rounded-full flex items-center justify-center">
-                      <Text className="text-gray-400 text-2xl">💪</Text>
+                  <View style={{
+                    backgroundColor: 'white',
+                    borderRadius: '24rpx',
+                    padding: '48rpx',
+                    textAlign: 'center'
+                  }}>
+                    <View style={{
+                      width: '96rpx',
+                      height: '96rpx',
+                      margin: '0 auto 24rpx',
+                      backgroundColor: '#f3f4f6',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <Text style={{ color: '#9ca3af', fontSize: '48rpx' }}>💪</Text>
                     </View>
-                    <Text className="text-gray-400 text-xs">这天没有训练记录</Text>
+                    <Text style={{ color: '#9ca3af', fontSize: '24rpx' }}>
+                      这天没有训练记录
+                    </Text>
                   </View>
                 ) : (
                   renderWorkoutCard(selectedDateWorkout)
@@ -190,13 +342,37 @@ export default function Records() {
 
         {viewMode === 'list' && (
           <View>
-            <Text className="font-medium text-gray-800 mb-3 text-sm block">所有记录 ({sortedRecords.length})</Text>
+            <Text style={{
+              fontWeight: '500',
+              color: '#1f2937',
+              marginBottom: '24rpx',
+              display: 'block',
+              fontSize: '28rpx'
+            }}>
+              所有记录 ({sortedRecords.length})
+            </Text>
             {sortedRecords.length === 0 ? (
-              <View className="bg-white rounded-xl p-6 text-center">
-                <View className="w-12 h-12 mx-auto mb-3 bg-gray-100 rounded-full flex items-center justify-center">
-                  <Text className="text-gray-400 text-2xl">📋</Text>
+              <View style={{
+                backgroundColor: 'white',
+                borderRadius: '24rpx',
+                padding: '48rpx',
+                textAlign: 'center'
+              }}>
+                <View style={{
+                  width: '96rpx',
+                  height: '96rpx',
+                  margin: '0 auto 24rpx',
+                  backgroundColor: '#f3f4f6',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Text style={{ color: '#9ca3af', fontSize: '48rpx' }}>📋</Text>
                 </View>
-                <Text className="text-gray-400 text-xs">还没有训练记录</Text>
+                <Text style={{ color: '#9ca3af', fontSize: '24rpx' }}>
+                  还没有训练记录
+                </Text>
               </View>
             ) : (
               <ScrollView scrollY>

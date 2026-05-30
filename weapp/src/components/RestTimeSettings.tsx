@@ -4,13 +4,11 @@ import { View, Text, Button, Input } from '@tarojs/components';
 interface RestTimeSettingsProps {
   currentSeconds: number;
   onUpdate: (seconds: number) => void;
-  className?: string;
 }
 
 export default function RestTimeSettings({
   currentSeconds,
   onUpdate,
-  className = '',
 }: RestTimeSettingsProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSeconds, setSelectedSeconds] = useState(currentSeconds);
@@ -42,9 +40,20 @@ export default function RestTimeSettings({
   };
 
   return (
-    <View className={className}>
+    <View>
       <Button
-        className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 rounded-lg text-gray-600 text-sm border-none"
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: '8rpx',
+          padding: '12rpx 24rpx',
+          backgroundColor: '#f3f4f6',
+          borderRadius: '16rpx',
+          color: '#4b5563',
+          fontSize: '24rpx',
+          border: 'none'
+        }}
         onClick={() => setIsOpen(true)}
       >
         <Text>⏱️</Text>
@@ -53,32 +62,80 @@ export default function RestTimeSettings({
       </Button>
 
       {isOpen && (
-        <View className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
-          <View className="w-full max-w-md bg-white rounded-t-2xl">
-            <View className="px-5 pt-4 pb-3 border-b border-gray-100">
-              <View className="flex items-center justify-between">
-                <Text className="text-lg font-medium text-gray-800">设置休息时间</Text>
+        <View style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 50,
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          backgroundColor: 'rgba(0,0,0,0.5)'
+        }}>
+          <View style={{
+            width: '100%',
+            maxWidth: '768rpx',
+            backgroundColor: 'white',
+            borderTopLeftRadius: '32rpx',
+            borderTopRightRadius: '32rpx'
+          }}>
+            <View style={{
+              padding: '40rpx',
+              paddingTop: '32rpx',
+              paddingBottom: '24rpx',
+              borderBottom: '2rpx solid #f3f4f6'
+            }}>
+              <View style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}>
+                <Text style={{ fontSize: '32rpx', fontWeight: '500', color: '#1f2937' }}>
+                  设置休息时间
+                </Text>
                 <Button
-                  className="p-1.5 border-none bg-transparent"
+                  style={{
+                    padding: '12rpx',
+                    border: 'none',
+                    backgroundColor: 'transparent'
+                  }}
                   onClick={() => setIsOpen(false)}
                 >
-                  <Text className="text-gray-500 text-xl">✕</Text>
+                  <Text style={{ color: '#6b7280', fontSize: '40rpx' }}>✕</Text>
                 </Button>
               </View>
             </View>
 
-            <View className="p-5">
-              <View className="mb-4">
-                <Text className="text-xs text-gray-500 mb-2 block">预设选项</Text>
-                <View className="grid grid-cols-3 gap-2">
+            <View style={{ padding: '40rpx' }}>
+              <View style={{ marginBottom: '32rpx' }}>
+                <Text style={{
+                  fontSize: '24rpx',
+                  color: '#6b7280',
+                  marginBottom: '16rpx',
+                  display: 'block'
+                }}>
+                  预设选项
+                </Text>
+                <View style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                  gap: '16rpx'
+                }}>
                   {presetOptions.map((option) => (
                     <Button
                       key={option.value}
-                      className={`py-2 rounded-lg text-sm font-medium transition-colors border-none ${
-                        selectedSeconds === option.value
-                          ? 'bg-[#07C160] text-white'
-                          : 'bg-gray-100 text-gray-700'
-                      }`}
+                      style={{
+                        padding: '16rpx',
+                        borderRadius: '16rpx',
+                        fontSize: '24rpx',
+                        fontWeight: '500',
+                        border: 'none',
+                        backgroundColor: selectedSeconds === option.value ? '#07C160' : '#f3f4f6',
+                        color: selectedSeconds === option.value ? 'white' : '#374151'
+                      }}
                       onClick={() => setSelectedSeconds(option.value)}
                     >
                       {option.label}
@@ -87,24 +144,50 @@ export default function RestTimeSettings({
                 </View>
               </View>
 
-              <View className="mb-6">
-                <Text className="text-xs text-gray-500 mb-2 block">自定义时间 (秒)</Text>
-                <View className="flex items-center gap-2">
+              <View style={{ marginBottom: '48rpx' }}>
+                <Text style={{
+                  fontSize: '24rpx',
+                  color: '#6b7280',
+                  marginBottom: '16rpx',
+                  display: 'block'
+                }}>
+                  自定义时间 (秒)
+                </Text>
+                <View style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: '16rpx'
+                }}>
                   <Input
                     type="number"
-                    className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-center"
+                    style={{
+                      flex: 1,
+                      padding: '12rpx 24rpx',
+                      border: '2rpx solid #e5e7eb',
+                      borderRadius: '16rpx',
+                      textAlign: 'center'
+                    }}
                     value={selectedSeconds.toString()}
                     onInput={(e) => {
                       const value = parseInt(e.detail.value) || 10;
                       setSelectedSeconds(Math.min(Math.max(10, value), 600));
                     }}
                   />
-                  <Text className="text-gray-500 text-sm">秒</Text>
+                  <Text style={{ fontSize: '24rpx', color: '#6b7280' }}>秒</Text>
                 </View>
               </View>
 
               <Button
-                className="w-full py-3 bg-[#07C160] text-white font-medium rounded-lg border-none"
+                style={{
+                  width: '100%',
+                  padding: '24rpx',
+                  backgroundColor: '#07C160',
+                  color: 'white',
+                  fontWeight: '500',
+                  borderRadius: '16rpx',
+                  border: 'none'
+                }}
                 onClick={handleSave}
               >
                 保存设置

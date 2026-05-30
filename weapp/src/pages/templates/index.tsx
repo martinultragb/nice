@@ -111,72 +111,176 @@ export default function Templates() {
   }, {} as Record<string, typeof exercises>);
 
   return (
-    <View className="pb-6 bg-background">
-      <View className="px-4 pt-5">
-        <View className="mb-5 flex items-center justify-between">
+    <View style={{ paddingBottom: '24rpx', backgroundColor: '#f3f4f6' }}>
+      <View style={{ padding: '32rpx', paddingTop: '40rpx' }}>
+        <View style={{
+          marginBottom: '40rpx',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
           <View>
-            <Text className="text-xs text-gray-400">创建和管理你的训练计划</Text>
+            <Text style={{ fontSize: '28rpx', color: '#9ca3af' }}>创建和管理你的训练计划</Text>
           </View>
           <View
-            className="w-10 h-10 bg-primary rounded-full flex items-center justify-center"
+            style={{
+              width: '80rpx',
+              height: '80rpx',
+              backgroundColor: '#3b82f6',
+              borderRadius: '9999px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
             onClick={openAddModal}
           >
-            <Text className="text-white text-xl">+</Text>
+            <Text style={{ color: 'white', fontSize: '40rpx' }}>+</Text>
           </View>
         </View>
 
         {templates.length === 0 ? (
-          <View className="bg-white rounded-xl p-8 text-center">
-            <View className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-              <Text className="text-gray-400 text-3xl">📋</Text>
+          <View style={{
+            backgroundColor: 'white',
+            borderRadius: '24rpx',
+            padding: '64rpx',
+            textAlign: 'center'
+          }}>
+            <View style={{
+              width: '128rpx',
+              height: '128rpx',
+              margin: '0 auto 32rpx',
+              backgroundColor: '#f3f4f6',
+              borderRadius: '9999px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <Text style={{ color: '#9ca3af', fontSize: '60rpx' }}>📋</Text>
             </View>
-            <Text className="font-medium text-gray-800 mb-2 block text-sm">还没有模板</Text>
-            <Text className="text-gray-400 text-xs mb-4 block">创建你的第一个训练模板</Text>
+            <Text style={{
+              fontWeight: '500',
+              color: '#1f2937',
+              marginBottom: '16rpx',
+              display: 'block',
+              fontSize: '28rpx'
+            }}>还没有模板</Text>
+            <Text style={{
+              color: '#9ca3af',
+              fontSize: '24rpx',
+              marginBottom: '32rpx',
+              display: 'block'
+            }}>创建你的第一个训练模板</Text>
             <Button
-              className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-white font-medium rounded-lg"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8rpx',
+                padding: '20rpx 48rpx',
+                backgroundColor: '#3b82f6',
+                color: 'white',
+                fontWeight: '500',
+                borderRadius: '16rpx'
+              }}
               onClick={openAddModal}
             >
               + 创建模板
             </Button>
           </View>
         ) : (
-          <View className="space-y-3">
+          <View style={{ gap: '24rpx', display: 'flex', flexDirection: 'column' }}>
             {templates.map((template) => (
-              <View key={template.id} className="bg-white rounded-xl p-4">
-                <View className="flex items-start justify-between mb-3">
-                  <View className="flex items-center gap-3">
-                    <View className="w-10 h-10 bg-primary-light rounded-lg flex items-center justify-center">
-                      <Text className="text-primary text-xl">📋</Text>
+              <View 
+                key={template.id} 
+                style={{
+                  backgroundColor: 'white',
+                  borderRadius: '24rpx',
+                  padding: '32rpx'
+                }}
+              >
+                <View style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                  justifyContent: 'space-between',
+                  marginBottom: '24rpx'
+                }}>
+                  <View style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: '24rpx'
+                  }}>
+                    <View style={{
+                      width: '80rpx',
+                      height: '80rpx',
+                      backgroundColor: '#dbeafe',
+                      borderRadius: '16rpx',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <Text style={{ color: '#3b82f6', fontSize: '40rpx' }}>📋</Text>
                     </View>
                     <View>
-                      <Text className="font-medium text-gray-800">{template.name}</Text>
-                      <Text className="text-xs text-gray-400">
+                      <Text style={{ fontWeight: '500', color: '#1f2937' }}>{template.name}</Text>
+                      <Text style={{ fontSize: '24rpx', color: '#9ca3af' }}>
                         {template.exercises.length} 个动作
                       </Text>
                     </View>
                   </View>
-                  <View className="flex gap-1">
+                  <View style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: '4rpx'
+                  }}>
                     <View
-                      className="w-8 h-8 flex items-center justify-center"
+                      style={{
+                        width: '64rpx',
+                        height: '64rpx',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
                       onClick={() => openEditModal(template)}
                     >
-                      <Text className="text-gray-500">✎</Text>
+                      <Text style={{ color: '#6b7280' }}>✎</Text>
                     </View>
                     <View
-                      className="w-8 h-8 flex items-center justify-center"
+                      style={{
+                        width: '64rpx',
+                        height: '64rpx',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
                       onClick={() => handleDelete(template)}
                     >
-                      <Text className="text-red-500">🗑</Text>
+                      <Text style={{ color: '#ef4444' }}>🗑</Text>
                     </View>
                   </View>
                 </View>
-                <View className="flex flex-wrap gap-2">
+                <View style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  gap: '8rpx'
+                }}>
                   {template.exercises.map((ex) => {
                     const exercise = exercises.find((e) => e.id === ex.exerciseId);
                     return (
                       <View
                         key={ex.exerciseId}
-                        className="px-2 py-1 bg-gray-50 rounded text-xs text-gray-500"
+                        style={{
+                          paddingLeft: '16rpx',
+                          paddingRight: '16rpx',
+                          paddingTop: '8rpx',
+                          paddingBottom: '8rpx',
+                          backgroundColor: '#f3f4f6',
+                          borderRadius: '8rpx',
+                          fontSize: '24rpx',
+                          color: '#6b7280'
+                        }}
                       >
                         {exercise?.name}
                       </View>
@@ -190,36 +294,95 @@ export default function Templates() {
       </View>
 
       {isModalOpen && (
-        <View className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
-          <ScrollView scrollY className="w-full max-w-md bg-white rounded-t-2xl max-h-[85vh]">
-            <View className="sticky top-0 bg-white px-5 pt-4 pb-3 border-b border-gray-100">
-              <View className="flex items-center justify-between">
-                <Text className="text-lg font-medium text-gray-800">
+        <View style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 50,
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          backgroundColor: 'rgba(0,0,0,0.5)'
+        }}>
+          <ScrollView scrollY style={{
+            width: '100%',
+            maxWidth: '768rpx',
+            backgroundColor: 'white',
+            borderTopLeftRadius: '32rpx',
+            borderTopRightRadius: '32rpx',
+            maxHeight: '85vh'
+          }}>
+            <View style={{
+              position: 'sticky',
+              top: 0,
+              backgroundColor: 'white',
+              padding: '40rpx',
+              paddingTop: '32rpx',
+              paddingBottom: '24rpx',
+              borderBottom: '2rpx solid #f3f4f6'
+            }}>
+              <View style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}>
+                <Text style={{ fontSize: '32rpx', fontWeight: '500', color: '#1f2937' }}>
                   {editingTemplate ? '编辑模板' : '新建模板'}
                 </Text>
-                <View className="p-1.5" onClick={() => setIsModalOpen(false)}>
-                  <Text className="text-gray-500 text-xl">✕</Text>
+                <View 
+                  style={{ padding: '12rpx' }}
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  <Text style={{ color: '#6b7280', fontSize: '40rpx' }}>✕</Text>
                 </View>
               </View>
             </View>
 
-            <View className="p-5 space-y-4">
+            <View style={{ padding: '40rpx', gap: '32rpx', display: 'flex', flexDirection: 'column' }}>
               <View>
-                <Text className="text-xs text-gray-500 mb-1.5 block">模板名称</Text>
+                <Text style={{
+                  fontSize: '24rpx',
+                  color: '#6b7280',
+                  marginBottom: '12rpx',
+                  display: 'block'
+                }}>模板名称</Text>
                 <Input
                   type="text"
                   value={templateName}
                   onInput={(e) => setTemplateName(e.detail.value)}
-                  className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm bg-white"
+                  style={{
+                    width: '100%',
+                    padding: '24rpx',
+                    border: '2rpx solid #e5e7eb',
+                    borderRadius: '16rpx',
+                    fontSize: '28rpx',
+                    backgroundColor: 'white'
+                  }}
                   placeholder="例如：周一胸部训练"
                 />
               </View>
 
               <View>
-                <View className="flex items-center justify-between mb-2">
-                  <Text className="text-xs text-gray-500">动作列表</Text>
+                <View style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '16rpx'
+                }}>
+                  <Text style={{ fontSize: '24rpx', color: '#6b7280' }}>动作列表</Text>
                   <View
-                    className="text-xs text-primary flex items-center gap-1"
+                    style={{
+                      fontSize: '24rpx',
+                      color: '#3b82f6',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: '4rpx'
+                    }}
                     onClick={() => setShowExerciseSelector(true)}
                   >
                     <Text>+</Text> 添加动作
@@ -227,24 +390,47 @@ export default function Templates() {
                 </View>
 
                 {selectedExercises.length === 0 ? (
-                  <View className="text-center py-6 text-gray-400 text-xs">
+                  <View style={{
+                    textAlign: 'center',
+                    padding: '48rpx',
+                    color: '#9ca3af',
+                    fontSize: '24rpx'
+                  }}>
                     点击上方按钮添加动作
                   </View>
                 ) : (
-                  <View className="space-y-2">
+                  <View style={{ gap: '16rpx', display: 'flex', flexDirection: 'column' }}>
                     {selectedExercises.map((ex) => (
-                      <View key={ex.exerciseId} className="bg-gray-50 rounded-lg p-3">
-                        <View className="flex items-center justify-between mb-2">
-                          <Text className="text-sm font-medium text-gray-800">
+                      <View 
+                        key={ex.exerciseId} 
+                        style={{
+                          backgroundColor: '#f3f4f6',
+                          borderRadius: '16rpx',
+                          padding: '24rpx'
+                        }}
+                      >
+                        <View style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          marginBottom: '16rpx'
+                        }}>
+                          <Text style={{ fontSize: '28rpx', fontWeight: '500', color: '#1f2937' }}>
                             {ex.exerciseName}
                           </Text>
                           <View onClick={() => removeExerciseFromTemplate(ex.exerciseId)}>
-                            <Text className="text-red-400">✕</Text>
+                            <Text style={{ color: '#f87171' }}>✕</Text>
                           </View>
                         </View>
-                        <View className="flex gap-3">
-                          <View className="flex-1">
-                            <Text className="text-[10px] text-gray-400 mb-1 block">组数</Text>
+                        <View style={{ display: 'flex', flexDirection: 'row', gap: '24rpx' }}>
+                          <View style={{ flex: 1 }}>
+                            <Text style={{
+                              fontSize: '20rpx',
+                              color: '#9ca3af',
+                              marginBottom: '8rpx',
+                              display: 'block'
+                            }}>组数</Text>
                             <Input
                               type="number"
                               value={String(ex.targetSets)}
@@ -253,11 +439,24 @@ export default function Templates() {
                                   targetSets: parseInt(e.detail.value) || 3,
                                 })
                               }
-                              className="w-full px-2 py-1.5 bg-white border border-gray-200 rounded text-center text-sm"
+                              style={{
+                                width: '100%',
+                                padding: '12rpx',
+                                backgroundColor: 'white',
+                                border: '2rpx solid #e5e7eb',
+                                borderRadius: '8rpx',
+                                textAlign: 'center',
+                                fontSize: '28rpx'
+                              }}
                             />
                           </View>
-                          <View className="flex-1">
-                            <Text className="text-[10px] text-gray-400 mb-1 block">每组次数</Text>
+                          <View style={{ flex: 1 }}>
+                            <Text style={{
+                              fontSize: '20rpx',
+                              color: '#9ca3af',
+                              marginBottom: '8rpx',
+                              display: 'block'
+                            }}>每组次数</Text>
                             <Input
                               type="number"
                               value={String(ex.targetReps)}
@@ -266,7 +465,15 @@ export default function Templates() {
                                   targetReps: parseInt(e.detail.value) || 10,
                                 })
                               }
-                              className="w-full px-2 py-1.5 bg-white border border-gray-200 rounded text-center text-sm"
+                              style={{
+                                width: '100%',
+                                padding: '12rpx',
+                                backgroundColor: 'white',
+                                border: '2rpx solid #e5e7eb',
+                                borderRadius: '8rpx',
+                                textAlign: 'center',
+                                fontSize: '28rpx'
+                              }}
                             />
                           </View>
                         </View>
@@ -277,7 +484,14 @@ export default function Templates() {
               </View>
 
               <Button
-                className="w-full py-3 bg-primary text-white font-medium rounded-lg"
+                style={{
+                  width: '100%',
+                  padding: '24rpx',
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  fontWeight: '500',
+                  borderRadius: '16rpx'
+                }}
                 onClick={handleSubmit}
               >
                 {editingTemplate ? '保存修改' : '创建模板'}
@@ -288,20 +502,59 @@ export default function Templates() {
       )}
 
       {showExerciseSelector && (
-        <View className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
-          <ScrollView scrollY className="w-full max-w-md bg-white rounded-t-2xl max-h-[70vh]">
-            <View className="sticky top-0 bg-white px-5 pt-4 pb-3 border-b border-gray-100">
-              <View className="flex items-center justify-between">
-                <Text className="text-lg font-medium text-gray-800">选择动作</Text>
-                <View className="p-1.5" onClick={() => setShowExerciseSelector(false)}>
-                  <Text className="text-gray-500 text-xl">✕</Text>
+        <View style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 50,
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          backgroundColor: 'rgba(0,0,0,0.5)'
+        }}>
+          <ScrollView scrollY style={{
+            width: '100%',
+            maxWidth: '768rpx',
+            backgroundColor: 'white',
+            borderTopLeftRadius: '32rpx',
+            borderTopRightRadius: '32rpx',
+            maxHeight: '70vh'
+          }}>
+            <View style={{
+              position: 'sticky',
+              top: 0,
+              backgroundColor: 'white',
+              padding: '40rpx',
+              paddingTop: '32rpx',
+              paddingBottom: '24rpx',
+              borderBottom: '2rpx solid #f3f4f6'
+            }}>
+              <View style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}>
+                <Text style={{ fontSize: '32rpx', fontWeight: '500', color: '#1f2937' }}>选择动作</Text>
+                <View 
+                  style={{ padding: '12rpx' }}
+                  onClick={() => setShowExerciseSelector(false)}
+                >
+                  <Text style={{ color: '#6b7280', fontSize: '40rpx' }}>✕</Text>
                 </View>
               </View>
             </View>
-            <View className="p-5">
+            <View style={{ padding: '40rpx' }}>
               {Object.entries(groupedExercises).map(([group, exs]) => (
-                <View key={group} className="mb-4">
-                  <Text className="text-xs text-gray-400 mb-2 block">
+                <View key={group} style={{ marginBottom: '32rpx' }}>
+                  <Text style={{
+                    fontSize: '24rpx',
+                    color: '#9ca3af',
+                    marginBottom: '16rpx',
+                    display: 'block'
+                  }}>
                     {group === 'chest' ? '胸部' : 
                      group === 'back' ? '背部' :
                      group === 'shoulder' ? '肩部' :
@@ -309,23 +562,31 @@ export default function Templates() {
                      group === 'leg' ? '腿部' :
                      group === 'core' ? '核心' : '全身'}
                   </Text>
-                  <View className="space-y-1">
+                  <View style={{ gap: '8rpx', display: 'flex', flexDirection: 'column' }}>
                     {exs.map((ex) => {
                       const isSelected = selectedExercises.find((sel) => sel.exerciseId === ex.id);
                       return (
                         <View
                           key={ex.id}
-                          className={`w-full px-3 py-2.5 text-left flex items-center justify-between rounded-lg ${
-                            isSelected ? 'bg-primary-light' : 'bg-gray-50'
-                          }`}
+                          style={{
+                            width: '100%',
+                            padding: '20rpx 24rpx',
+                            textAlign: 'left',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            borderRadius: '16rpx',
+                            backgroundColor: isSelected ? '#dbeafe' : '#f3f4f6'
+                          }}
                           onClick={() =>
                             isSelected
                               ? removeExerciseFromTemplate(ex.id)
                               : addExerciseToTemplate(ex.id, ex.name)
                           }
                         >
-                          <Text className="text-sm text-gray-800">{ex.name}</Text>
-                          <Text className={isSelected ? 'text-primary' : 'text-gray-300'}>
+                          <Text style={{ fontSize: '28rpx', color: '#1f2937' }}>{ex.name}</Text>
+                          <Text style={{ color: isSelected ? '#3b82f6' : '#d1d5db' }}>
                             {isSelected ? '✓' : '○'}
                           </Text>
                         </View>

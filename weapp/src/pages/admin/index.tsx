@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { View, Text, Input, ScrollView } from '@tarojs/components';
-import store from '../../store/exerciseStore';
+import exerciseStore from '../../store/exerciseStore';
 import userStore from '../../store/userStore';
 import type { Exercise, MuscleGroup, User } from '../../types';
 
@@ -116,26 +116,34 @@ export default function Admin() {
   }, {} as Record<MuscleGroup, Exercise[]>);
 
   return (
-    <View className="pb-6 bg-background">
-      <View className="px-4 pt-5">
-        <View className="flex gap-2 mb-5">
+    <View style={{ paddingBottom: '24rpx', backgroundColor: '#f3f4f6' }}>
+      <View style={{ padding: '32rpx', paddingTop: '40rpx' }}>
+        <View style={{ display: 'flex', flexDirection: 'row', gap: '8rpx', marginBottom: '40rpx' }}>
           <View
-            className={`flex-1 py-3 rounded-xl text-center font-medium transition-all ${
-              activeTab === 'exercises'
-                ? 'bg-primary text-white'
-                : 'bg-gray-100 text-gray-600'
-            }`}
+            style={{
+              flex: 1,
+              padding: '24rpx',
+              borderRadius: '24rpx',
+              textAlign: 'center',
+              fontWeight: '500',
+              backgroundColor: activeTab === 'exercises' ? '#3b82f6' : '#f3f4f6',
+              color: activeTab === 'exercises' ? 'white' : '#4b5563'
+            }}
             onClick={() => setActiveTab('exercises')}
           >
             <Text>动作管理</Text>
           </View>
           {isAdmin && (
             <View
-              className={`flex-1 py-3 rounded-xl text-center font-medium transition-all ${
-                activeTab === 'users'
-                  ? 'bg-primary text-white'
-                  : 'bg-gray-100 text-gray-600'
-              }`}
+              style={{
+                flex: 1,
+                padding: '24rpx',
+                borderRadius: '24rpx',
+                textAlign: 'center',
+                fontWeight: '500',
+                backgroundColor: activeTab === 'users' ? '#3b82f6' : '#f3f4f6',
+                color: activeTab === 'users' ? 'white' : '#4b5563'
+              }}
               onClick={() => setActiveTab('users')}
             >
               <Text>用户管理</Text>
@@ -145,66 +153,165 @@ export default function Admin() {
 
         {activeTab === 'exercises' && (
           <>
-            <View className="flex items-center justify-between mb-5">
+            <View style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '40rpx'
+            }}>
               <View>
-                <Text className="text-xs text-gray-400">管理你的力量训练动作库</Text>
+                <Text style={{ fontSize: '24rpx', color: '#9ca3af' }}>
+                  管理你的力量训练动作库
+                </Text>
               </View>
-              <View className="w-10 h-10 bg-primary rounded-full flex items-center justify-center" onClick={openAddModal}>
-                <Text className="text-white text-xl">+</Text>
+              <View
+                style={{
+                  width: '80rpx',
+                  height: '80rpx',
+                  backgroundColor: '#3b82f6',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+                onClick={openAddModal}
+              >
+                <Text style={{ color: 'white', fontSize: '40rpx' }}>+</Text>
               </View>
             </View>
 
             {exercises.length === 0 ? (
-              <View className="bg-white rounded-xl p-8 text-center">
-                <View className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-                  <Text className="text-gray-400 text-3xl">💪</Text>
+              <View style={{
+                backgroundColor: 'white',
+                borderRadius: '24rpx',
+                padding: '64rpx',
+                textAlign: 'center'
+              }}>
+                <View style={{
+                  width: '128rpx',
+                  height: '128rpx',
+                  margin: '0 auto 32rpx',
+                  backgroundColor: '#f3f4f6',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Text style={{ color: '#9ca3af', fontSize: '60rpx' }}>💪</Text>
                 </View>
-                <Text className="font-medium text-gray-800 mb-2 block text-sm">还没有动作</Text>
-                <Text className="text-gray-400 text-xs">点击右上角按钮添加第一个训练动作</Text>
+                <Text style={{
+                  fontWeight: '500',
+                  color: '#1f2937',
+                  marginBottom: '16rpx',
+                  display: 'block',
+                  fontSize: '28rpx'
+                }}>
+                  还没有动作
+                </Text>
+                <Text style={{ color: '#9ca3af', fontSize: '24rpx' }}>
+                  点击右上角按钮添加第一个训练动作
+                </Text>
               </View>
             ) : (
-              <ScrollView scrollY className="h-[calc(100vh-200px)]">
-                <View className="space-y-5">
+              <ScrollView scrollY style={{ height: 'calc(100vh - 200px)' }}>
+                <View style={{ gap: '40rpx', display: 'flex', flexDirection: 'column' }}>
                   {muscleGroups.map((group) => {
                     const groupExercises = groupedExercises[group];
                     if (groupExercises.length === 0) return null;
 
                     return (
                       <View key={group}>
-                        <View className="flex items-center gap-2 mb-2.5">
-                          <Text className="text-lg">💪</Text>
-                          <Text className="font-medium text-gray-800 text-sm">{muscleGroupLabels[group]}</Text>
-                          <Text className="text-xs text-gray-400">({groupExercises.length})</Text>
+                        <View style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          gap: '8rpx',
+                          marginBottom: '20rpx'
+                        }}>
+                          <Text style={{ fontSize: '36rpx' }}>💪</Text>
+                          <Text style={{ fontWeight: '500', color: '#1f2937', fontSize: '28rpx' }}>
+                            {muscleGroupLabels[group]}
+                          </Text>
+                          <Text style={{ fontSize: '24rpx', color: '#9ca3af' }}>
+                            ({groupExercises.length})
+                          </Text>
                         </View>
-                        <View className="space-y-2">
+                        <View style={{ gap: '16rpx', display: 'flex', flexDirection: 'column' }}>
                           {groupExercises.map((exercise) => (
                             <View
                               key={exercise.id}
-                              className="bg-white rounded-xl p-4 flex items-center justify-between"
+                              style={{
+                                backgroundColor: 'white',
+                                borderRadius: '24rpx',
+                                padding: '32rpx',
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-between'
+                              }}
                             >
-                              <View className="flex items-center gap-3">
-                                <View className="w-9 h-9 bg-primary-light rounded-lg flex items-center justify-center">
-                                  <Text className="text-primary text-lg">💪</Text>
+                              <View style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                gap: '24rpx'
+                              }}>
+                                <View style={{
+                                  width: '72rpx',
+                                  height: '72rpx',
+                                  backgroundColor: '#dbeafe',
+                                  borderRadius: '16rpx',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center'
+                                }}>
+                                  <Text style={{ color: '#3b82f6', fontSize: '36rpx' }}>💪</Text>
                                 </View>
                                 <View>
-                                  <Text className="font-medium text-gray-800 text-sm">{exercise.name}</Text>
+                                  <Text style={{
+                                    fontWeight: '500',
+                                    color: '#1f2937',
+                                    fontSize: '28rpx'
+                                  }}>
+                                    {exercise.name}
+                                  </Text>
                                   {exercise.description && (
-                                    <Text className="text-xs text-gray-400">{exercise.description}</Text>
+                                    <Text style={{ fontSize: '24rpx', color: '#9ca3af' }}>
+                                      {exercise.description}
+                                    </Text>
                                   )}
                                 </View>
                               </View>
-                              <View className="flex items-center gap-1">
+                              <View style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                gap: '4rpx'
+                              }}>
                                 <View
-                                  className="w-8 h-8 flex items-center justify-center"
+                                  style={{
+                                    width: '64rpx',
+                                    height: '64rpx',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                  }}
                                   onClick={() => openEditModal(exercise)}
                                 >
-                                  <Text className="text-gray-500">✎</Text>
+                                  <Text style={{ color: '#6b7280' }}>✎</Text>
                                 </View>
                                 <View
-                                  className="w-8 h-8 flex items-center justify-center"
+                                  style={{
+                                    width: '64rpx',
+                                    height: '64rpx',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                  }}
                                   onClick={() => handleDelete(exercise)}
                                 >
-                                  <Text className="text-red-500">🗑</Text>
+                                  <Text style={{ color: '#ef4444' }}>🗑</Text>
                                 </View>
                               </View>
                             </View>
@@ -221,57 +328,139 @@ export default function Admin() {
 
         {activeTab === 'users' && isAdmin && (
           <>
-            <View className="mb-5">
-              <Text className="text-xs text-gray-400">管理平台用户</Text>
+            <View style={{ marginBottom: '40rpx' }}>
+              <Text style={{ fontSize: '24rpx', color: '#9ca3af' }}>管理平台用户</Text>
             </View>
 
             {users.length === 0 ? (
-              <View className="bg-white rounded-xl p-8 text-center">
-                <View className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-                  <Text className="text-gray-400 text-3xl">👥</Text>
+              <View style={{
+                backgroundColor: 'white',
+                borderRadius: '24rpx',
+                padding: '64rpx',
+                textAlign: 'center'
+              }}>
+                <View style={{
+                  width: '128rpx',
+                  height: '128rpx',
+                  margin: '0 auto 32rpx',
+                  backgroundColor: '#f3f4f6',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Text style={{ color: '#9ca3af', fontSize: '60rpx' }}>👥</Text>
                 </View>
-                <Text className="font-medium text-gray-800 mb-2 block text-sm">还没有用户</Text>
-                <Text className="text-gray-400 text-xs">用户登录后会显示在这里</Text>
+                <Text style={{
+                  fontWeight: '500',
+                  color: '#1f2937',
+                  marginBottom: '16rpx',
+                  display: 'block',
+                  fontSize: '28rpx'
+                }}>
+                  还没有用户
+                </Text>
+                <Text style={{ color: '#9ca3af', fontSize: '24rpx' }}>
+                  用户登录后会显示在这里
+                </Text>
               </View>
             ) : (
-              <ScrollView scrollY className="h-[calc(100vh-180px)]">
-                <View className="space-y-3">
+              <ScrollView scrollY style={{ height: 'calc(100vh - 180px)' }}>
+                <View style={{ gap: '24rpx', display: 'flex', flexDirection: 'column' }}>
                   {users.map((user) => (
                     <View
                       key={user.id}
-                      className="bg-white rounded-xl p-4 flex items-center justify-between"
+                      style={{
+                        backgroundColor: 'white',
+                        borderRadius: '24rpx',
+                        padding: '32rpx',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                      }}
                     >
-                      <View className="flex items-center gap-3">
-                        <View className="w-10 h-10 bg-primary-light rounded-full flex items-center justify-center">
-                          <Text className="text-primary text-lg">👤</Text>
+                      <View style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: '24rpx'
+                      }}>
+                        <View style={{
+                          width: '80rpx',
+                          height: '80rpx',
+                          backgroundColor: '#dbeafe',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}>
+                          <Text style={{ color: '#3b82f6', fontSize: '36rpx' }}>👤</Text>
                         </View>
                         <View>
-                          <View className="flex items-center gap-2">
-                            <Text className="font-medium text-gray-800 text-sm">{user.nickname}</Text>
+                          <View style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            gap: '8rpx'
+                          }}>
+                            <Text style={{
+                              fontWeight: '500',
+                              color: '#1f2937',
+                              fontSize: '28rpx'
+                            }}>
+                              {user.nickname}
+                            </Text>
                             {user.role === 'admin' && (
-                              <View className="px-2 py-0.5 bg-red-100 text-red-500 rounded text-xs">
+                              <View style={{
+                                paddingLeft: '16rpx',
+                                paddingRight: '16rpx',
+                                paddingTop: '4rpx',
+                                paddingBottom: '4rpx',
+                                backgroundColor: '#fee2e2',
+                                color: '#ef4444',
+                                borderRadius: '8rpx',
+                                fontSize: '24rpx'
+                              }}>
                                 <Text>管理员</Text>
                               </View>
                             )}
                           </View>
-                          <Text className="text-xs text-gray-400">
+                          <Text style={{ fontSize: '24rpx', color: '#9ca3af' }}>
                             注册时间：{new Date(user.createdAt).toLocaleDateString()}
                           </Text>
                         </View>
                       </View>
-                      <View className="flex items-center gap-2">
+                      <View style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: '8rpx'
+                      }}>
                         <View
-                          className="w-8 h-8 flex items-center justify-center"
+                          style={{
+                            width: '64rpx',
+                            height: '64rpx',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
                           onClick={() => openRoleModal(user)}
                         >
-                          <Text className="text-gray-500">⚙️</Text>
+                          <Text style={{ color: '#6b7280' }}>⚙️</Text>
                         </View>
                         {user.id !== userStore.getUser()?.id && (
                           <View
-                            className="w-8 h-8 flex items-center justify-center"
+                            style={{
+                              width: '64rpx',
+                              height: '64rpx',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}
                             onClick={() => handleUserDelete(user)}
                           >
-                            <Text className="text-red-500">🗑</Text>
+                            <Text style={{ color: '#ef4444' }}>🗑</Text>
                           </View>
                         )}
                       </View>
@@ -285,63 +474,150 @@ export default function Admin() {
       </View>
 
       {isModalOpen && (
-        <View className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
-          <ScrollView scrollY className="w-full max-w-md bg-white rounded-t-2xl max-h-[90vh]">
-            <View className="sticky top-0 bg-white px-5 pt-4 pb-3 border-b border-gray-100">
-              <View className="flex items-center justify-between">
-                <Text className="text-lg font-medium text-gray-800">
+        <View style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 50,
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          backgroundColor: 'rgba(0,0,0,0.5)'
+        }}>
+          <ScrollView scrollY style={{
+            width: '100%',
+            maxWidth: '768rpx',
+            backgroundColor: 'white',
+            borderTopLeftRadius: '32rpx',
+            borderTopRightRadius: '32rpx',
+            maxHeight: '90vh'
+          }}>
+            <View style={{
+              position: 'sticky',
+              top: 0,
+              backgroundColor: 'white',
+              padding: '40rpx',
+              paddingTop: '32rpx',
+              paddingBottom: '24rpx',
+              borderBottom: '2rpx solid #f3f4f6'
+            }}>
+              <View style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}>
+                <Text style={{ fontSize: '32rpx', fontWeight: '500', color: '#1f2937' }}>
                   {editingExercise ? '编辑动作' : '添加动作'}
                 </Text>
-                <View className="p-1.5" onClick={() => setIsModalOpen(false)}>
-                  <Text className="text-gray-500 text-xl">✕</Text>
+                <View
+                  style={{ padding: '12rpx' }}
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  <Text style={{ color: '#6b7280', fontSize: '40rpx' }}>✕</Text>
                 </View>
               </View>
             </View>
 
-            <View className="p-5 space-y-4">
+            <View style={{ padding: '40rpx', gap: '32rpx', display: 'flex', flexDirection: 'column' }}>
               <View>
-                <Text className="text-xs text-gray-500 mb-1.5 block">动作名称</Text>
+                <Text style={{
+                  fontSize: '24rpx',
+                  color: '#6b7280',
+                  marginBottom: '12rpx',
+                  display: 'block'
+                }}>
+                  动作名称
+                </Text>
                 <Input
                   type="text"
                   value={formData.name}
                   onInput={(e) => setFormData({ ...formData, name: e.detail.value })}
-                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm"
+                  style={{
+                    width: '100%',
+                    padding: '20rpx 24rpx',
+                    backgroundColor: '#f3f4f6',
+                    border: '2rpx solid #e5e7eb',
+                    borderRadius: '16rpx',
+                    fontSize: '28rpx'
+                  }}
                   placeholder="例如：卧推、深蹲"
                 />
               </View>
 
               <View>
-                <Text className="text-xs text-gray-500 mb-1.5 block">肌群</Text>
-                <View className="grid grid-cols-2 gap-2">
+                <Text style={{
+                  fontSize: '24rpx',
+                  color: '#6b7280',
+                  marginBottom: '12rpx',
+                  display: 'block'
+                }}>
+                  肌群
+                </Text>
+                <View style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gap: '16rpx'
+                }}>
                   {muscleGroups.map((group) => (
                     <View
                       key={group}
-                      className={`px-3 py-2.5 rounded-lg border text-center ${
-                        formData.muscleGroup === group
-                          ? 'border-primary bg-primary-light text-primary'
-                          : 'border-gray-200 bg-white text-gray-600'
-                      }`}
+                      style={{
+                        padding: '20rpx 24rpx',
+                        borderRadius: '16rpx',
+                        border: '2rpx solid',
+                        textAlign: 'center',
+                        borderColor: formData.muscleGroup === group ? '#3b82f6' : '#e5e7eb',
+                        backgroundColor: formData.muscleGroup === group ? '#dbeafe' : 'white',
+                        color: formData.muscleGroup === group ? '#3b82f6' : '#4b5563'
+                      }}
                       onClick={() => setFormData({ ...formData, muscleGroup: group })}
                     >
-                      <Text className="text-xs font-medium">{muscleGroupLabels[group]}</Text>
+                      <Text style={{ fontSize: '24rpx', fontWeight: '500' }}>
+                        {muscleGroupLabels[group]}
+                      </Text>
                     </View>
                   ))}
                 </View>
               </View>
 
               <View>
-                <Text className="text-xs text-gray-500 mb-1.5 block">描述（可选）</Text>
+                <Text style={{
+                  fontSize: '24rpx',
+                  color: '#6b7280',
+                  marginBottom: '12rpx',
+                  display: 'block'
+                }}>
+                  描述（可选）
+                </Text>
                 <Input
                   type="text"
                   value={formData.description}
                   onInput={(e) => setFormData({ ...formData, description: e.detail.value })}
-                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm"
+                  style={{
+                    width: '100%',
+                    padding: '20rpx 24rpx',
+                    backgroundColor: '#f3f4f6',
+                    border: '2rpx solid #e5e7eb',
+                    borderRadius: '16rpx',
+                    fontSize: '28rpx'
+                  }}
                   placeholder="动作的详细说明..."
                 />
               </View>
 
               <View
-                className="w-full py-3 bg-primary text-white font-medium rounded-lg text-center"
+                style={{
+                  width: '100%',
+                  padding: '24rpx',
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  fontWeight: '500',
+                  borderRadius: '16rpx',
+                  textAlign: 'center'
+                }}
                 onClick={handleSubmit}
               >
                 <Text>{editingExercise ? '保存修改' : '添加动作'}</Text>
@@ -352,40 +628,93 @@ export default function Admin() {
       )}
 
       {showRoleModal && selectedUser && (
-        <View className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
-          <View className="w-full max-w-md bg-white rounded-t-2xl p-5">
-            <View className="flex items-center justify-between mb-5">
-              <Text className="text-lg font-medium text-gray-800">设置用户角色</Text>
-              <View className="p-1.5" onClick={() => setShowRoleModal(false)}>
-                <Text className="text-gray-500 text-xl">✕</Text>
+        <View style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 50,
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          backgroundColor: 'rgba(0,0,0,0.5)'
+        }}>
+          <View style={{
+            width: '100%',
+            maxWidth: '768rpx',
+            backgroundColor: 'white',
+            borderTopLeftRadius: '32rpx',
+            borderTopRightRadius: '32rpx',
+            padding: '40rpx'
+          }}>
+            <View style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '40rpx'
+            }}>
+              <Text style={{ fontSize: '32rpx', fontWeight: '500', color: '#1f2937' }}>
+                设置用户角色
+              </Text>
+              <View
+                style={{ padding: '12rpx' }}
+                onClick={() => setShowRoleModal(false)}
+              >
+                <Text style={{ color: '#6b7280', fontSize: '40rpx' }}>✕</Text>
               </View>
             </View>
 
-            <View className="mb-4">
-              <Text className="text-sm text-gray-600 mb-3 block">当前用户：{selectedUser.nickname}</Text>
-              <Text className="text-xs text-gray-400 mb-4 block">请选择新的角色</Text>
+            <View style={{ marginBottom: '32rpx' }}>
+              <Text style={{
+                fontSize: '28rpx',
+                color: '#4b5563',
+                marginBottom: '24rpx',
+                display: 'block'
+              }}>
+                当前用户：{selectedUser.nickname}
+              </Text>
+              <Text style={{
+                fontSize: '24rpx',
+                color: '#9ca3af',
+                marginBottom: '32rpx',
+                display: 'block'
+              }}>
+                请选择新的角色
+              </Text>
             </View>
 
-            <View className="space-y-3">
+            <View style={{ gap: '24rpx', display: 'flex', flexDirection: 'column' }}>
               <View
-                className={`w-full py-3 rounded-lg border text-center transition-all ${
-                  selectedUser.role === 'user'
-                    ? 'border-primary bg-primary-light text-primary'
-                    : 'border-gray-200 text-gray-600'
-                }`}
+                style={{
+                  width: '100%',
+                  padding: '24rpx',
+                  borderRadius: '16rpx',
+                  border: '2rpx solid',
+                  textAlign: 'center',
+                  borderColor: selectedUser.role === 'user' ? '#3b82f6' : '#e5e7eb',
+                  backgroundColor: selectedUser.role === 'user' ? '#dbeafe' : 'white',
+                  color: selectedUser.role === 'user' ? '#3b82f6' : '#4b5563'
+                }}
                 onClick={() => handleRoleChange('user')}
               >
-                <Text className="font-medium">普通用户</Text>
+                <Text style={{ fontWeight: '500' }}>普通用户</Text>
               </View>
               <View
-                className={`w-full py-3 rounded-lg border text-center transition-all ${
-                  selectedUser.role === 'admin'
-                    ? 'border-primary bg-primary-light text-primary'
-                    : 'border-gray-200 text-gray-600'
-                }`}
+                style={{
+                  width: '100%',
+                  padding: '24rpx',
+                  borderRadius: '16rpx',
+                  border: '2rpx solid',
+                  textAlign: 'center',
+                  borderColor: selectedUser.role === 'admin' ? '#3b82f6' : '#e5e7eb',
+                  backgroundColor: selectedUser.role === 'admin' ? '#dbeafe' : 'white',
+                  color: selectedUser.role === 'admin' ? '#3b82f6' : '#4b5563'
+                }}
                 onClick={() => handleRoleChange('admin')}
               >
-                <Text className="font-medium">管理员</Text>
+                <Text style={{ fontWeight: '500' }}>管理员</Text>
               </View>
             </View>
           </View>
