@@ -9,5 +9,8 @@ module.exports = {
       }
     }
   },
-  plugins: []
+  plugins: [],
+  corePlugins: {
+    escape: false,
+  }
 }
