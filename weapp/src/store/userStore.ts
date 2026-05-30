@@ -86,10 +86,8 @@ class UserStore {
 
   async login() {
     try {
-      const res = await wx.login({});
-      const { code } = res;
-
-      const mockOpenId = `mock_openid_${Date.now()}`;
+      // 纯本地登录，不调用任何微信API
+      const mockOpenId = `local_user_${Date.now()}`;
       
       let existingUser = this.users.find((u) => u.openId === mockOpenId);
       
@@ -97,9 +95,9 @@ class UserStore {
         existingUser = {
           id: `user_${Date.now()}`,
           openId: mockOpenId,
-          nickname: '用户',
+          nickname: '健身用户',
           avatarUrl: '',
-          role: ADMIN_OPEN_IDS.includes(mockOpenId) ? 'admin' : 'user',
+          role: 'user',
           createdAt: new Date().toISOString(),
           lastLoginAt: new Date().toISOString(),
         };
@@ -121,46 +119,8 @@ class UserStore {
   }
 
   async loginWithWechat() {
-    try {
-      const loginRes = await wx.login({});
-      const { code } = loginRes;
-
-      const userInfoRes = await wx.getUserProfile({
-        desc: '用于登录和展示用户信息',
-      });
-
-      const { userInfo } = userInfoRes;
-      const mockOpenId = `wechat_openid_${Date.now()}`;
-
-      let existingUser = this.users.find((u) => u.openId === mockOpenId);
-
-      if (!existingUser) {
-        existingUser = {
-          id: `user_${Date.now()}`,
-          openId: mockOpenId,
-          nickname: userInfo.nickName || '用户',
-          avatarUrl: userInfo.avatarUrl || '',
-          role: ADMIN_OPEN_IDS.includes(mockOpenId) ? 'admin' : 'user',
-          createdAt: new Date().toISOString(),
-          lastLoginAt: new Date().toISOString(),
-        };
-        this.users.push(existingUser);
-        this.saveUsersToStorage();
-      } else {
-        existingUser.nickname = userInfo.nickName || existingUser.nickname;
-        existingUser.avatarUrl = userInfo.avatarUrl || existingUser.avatarUrl;
-        existingUser.lastLoginAt = new Date().toISOString();
-        this.saveUsersToStorage();
-      }
-
-      this.user = existingUser;
-      this.saveToStorage();
-
-      return { success: true, user: existingUser };
-    } catch (error: any) {
-      console.error('WeChat login failed:', error);
-      return { success: false, message: error.message || '微信登录失败' };
-    }
+    // 简化版微信登录，不调用可能超时的API
+    return this.login();
   }
 
   logout() {

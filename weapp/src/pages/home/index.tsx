@@ -35,7 +35,7 @@ export default function Home() {
   const user = userStore.getUser();
 
   useEffect(() => {
-    store.dispatch.initializeDefaultExercises();
+    store.initializeDefaultExercises();
 
     if (!userStore.getIsLoggedIn()) {
       setShowLoginModal(true);
@@ -241,7 +241,7 @@ export default function Home() {
       return;
     }
 
-    workoutStore.dispatch.addWorkout({
+    workoutStore.addWorkout({
       date: currentWorkout.date,
       templateId: currentWorkout.templateId,
       templateName: currentWorkout.templateName,

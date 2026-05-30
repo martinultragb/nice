@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, Text, Button, Input, ScrollView } from '@tarojs/components';
-import store from '../../store/templateStore';
+import templateStore from '../../store/templateStore';
 import exerciseStore from '../../store/exerciseStore';
 import type { WorkoutTemplate, TemplateExercise } from '../../types';
 
@@ -16,7 +16,7 @@ export default function Templates() {
   const [showExerciseSelector, setShowExerciseSelector] = useState(false);
 
   const templates = templateStore.getTemplates();
-  const exercises = store.getExercises();
+  const exercises = exerciseStore.getExercises();
 
   const openAddModal = () => {
     setEditingTemplate(null);
@@ -54,13 +54,13 @@ export default function Templates() {
     }));
 
     if (editingTemplate) {
-      store.dispatch.updateTemplate(editingTemplate.id, {
+      templateStore.updateTemplate(editingTemplate.id, {
         name: templateName,
         exercises: templateExercises,
       });
       wx.showToast({ title: '模板已更新', icon: 'success' });
     } else {
-      store.dispatch.addTemplate({
+      templateStore.addTemplate({
         name: templateName,
         exercises: templateExercises,
       });
@@ -75,7 +75,7 @@ export default function Templates() {
       content: `确定要删除模板 "${template.name}" 吗？`,
       success: (res) => {
         if (res.confirm) {
-          store.dispatch.deleteTemplate(template.id);
+          templateStore.deleteTemplate(template.id);
           wx.showToast({ title: '模板已删除', icon: 'success' });
         }
       }

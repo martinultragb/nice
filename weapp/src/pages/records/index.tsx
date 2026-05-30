@@ -32,7 +32,7 @@ export default function Records() {
       content: '确定要删除这条训练记录吗？',
       success: (res) => {
         if (res.confirm) {
-          workoutStore.dispatch.deleteWorkout(workoutId);
+          workoutStore.deleteWorkout(workoutId);
           wx.showToast({ title: '记录已删除', icon: 'success' });
         }
       }

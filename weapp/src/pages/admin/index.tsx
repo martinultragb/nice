@@ -31,10 +31,10 @@ export default function Admin() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   useEffect(() => {
-    store.dispatch.initializeDefaultExercises();
+    exerciseStore.initializeDefaultExercises();
   }, []);
 
-  const exercises = store.getExercises();
+  const exercises = exerciseStore.getExercises();
   const users = userStore.getUsers();
   const isAdmin = userStore.getIsAdmin();
 
@@ -61,10 +61,10 @@ export default function Admin() {
     }
 
     if (editingExercise) {
-      store.dispatch.updateExercise(editingExercise.id, formData);
+      exerciseStore.updateExercise(editingExercise.id, formData);
       wx.showToast({ title: '动作已更新', icon: 'success' });
     } else {
-      store.dispatch.addExercise(formData);
+      exerciseStore.addExercise(formData);
       wx.showToast({ title: '动作已添加', icon: 'success' });
     }
     setIsModalOpen(false);
@@ -76,7 +76,7 @@ export default function Admin() {
       content: `确定要删除动作 "${exercise.name}" 吗？`,
       success: (res) => {
         if (res.confirm) {
-          store.dispatch.deleteExercise(exercise.id);
+          exerciseStore.deleteExercise(exercise.id);
           wx.showToast({ title: '动作已删除', icon: 'success' });
         }
       }
