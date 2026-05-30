@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev:weapp": "taro build --type weapp --watch",
-    "build:weapp": "taro build --type weapp",
+    "build:weapp": "taro build --type weapp && node fix-wxss.js",
     "dev:h5": "taro build --type h5 --watch",
     "build:h5": "taro build --type h5"
   },

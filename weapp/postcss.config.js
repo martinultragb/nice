@@ -1,6 +1,10 @@
 module.exports = {
   plugins: {
-    tailwindcss: {},
-    autoprefixer: {}
+    tailwindcss: {
+      safeParser: false
+    },
+    autoprefixer: {
+      remove: false
+    }
   }
 }
