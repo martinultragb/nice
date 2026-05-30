@@ -73,35 +73,52 @@ export default function CountdownTimer({
   const progress = ((initialSeconds - seconds) / initialSeconds) * 100;
 
   return (
-    <View className={`w-full p-4 rounded-xl transition-all ${
-      isComplete 
-        ? 'bg-[#E8FBF0] border-2 border-[#07C160]' 
-        : 'bg-white border border-gray-200'
-    }`}>
-      <View className="flex items-center justify-between mb-3">
-        <View className="flex items-center gap-2">
-          <Text className={isComplete ? 'text-[#07C160]' : 'text-gray-500'}>⏱️</Text>
-          <Text className={`text-sm font-medium ${
-            isComplete ? 'text-[#07C160]' : 'text-gray-700'
-          }`}>
+    <View style={{
+      padding: '16px',
+      borderRadius: '12px',
+      backgroundColor: isComplete ? '#E8FBF0' : 'white',
+      border: `2px solid ${isComplete ? '#07C160' : '#d1d5db'}`,
+      marginBottom: '12px'
+    }}>
+      <View style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: '12px'
+      }}>
+        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
+          <Text style={{ color: isComplete ? '#07C160' : '#6b7280' }}>⏱️</Text>
+          <Text style={{
+            fontSize: '14px',
+            fontWeight: '500',
+            color: isComplete ? '#07C160' : '#374151'
+          }}>
             {isComplete ? '休息结束！' : '组间休息'}
           </Text>
         </View>
-        <View className="flex gap-1">
+        <View style={{ display: 'flex', flexDirection: 'row', gap: '4px' }}>
           <Button
             size="mini"
-            className="p-1.5 rounded-lg bg-transparent border-none"
+            style={{
+              padding: '6px',
+              borderRadius: '8px',
+              backgroundColor: 'transparent',
+              border: 'none'
+            }}
             onClick={reset}
           >
-            <Text className="text-gray-500">🔄</Text>
+            <Text style={{ color: '#6b7280' }}>🔄</Text>
           </Button>
           <Button
             size="mini"
-            className={`p-1.5 rounded-lg transition-colors border-none ${
-              isRunning 
-                ? 'bg-yellow-100 text-yellow-600' 
-                : 'bg-[#07C160] text-white'
-            }`}
+            style={{
+              padding: '6px',
+              borderRadius: '8px',
+              backgroundColor: isRunning ? '#fef3c7' : '#07C160',
+              color: isRunning ? '#d97706' : 'white',
+              border: 'none'
+            }}
             onClick={togglePause}
           >
             <Text>{isRunning ? '⏸️' : '▶️'}</Text>
@@ -109,31 +126,53 @@ export default function CountdownTimer({
         </View>
       </View>
 
-      <View className="flex justify-center">
-        <View className="relative w-32 h-32">
-          {/* 使用简单的样式代替 SVG */}
-          <View className="w-full h-full flex items-center justify-center">
-            <Text className={`text-3xl font-bold ${
-              isComplete ? 'text-[#07C160]' : 'text-gray-800'
-            }`}>
-              {formatTime(seconds)}
-            </Text>
-          </View>
-          <View 
-            className="absolute bottom-0 left-0 right-0 h-2 bg-gray-200 rounded-full overflow-hidden"
-          >
-            <View 
-              className="h-full bg-[#07C160] transition-all duration-1000"
-              style={{ width: `${progress}%` }}
-            />
+      <View style={{ display: 'flex', justifyContent: 'center' }}>
+        <View style={{
+          width: '128px',
+          height: '128px',
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <Text style={{
+            fontSize: '30px',
+            fontWeight: 'bold',
+            color: isComplete ? '#07C160' : '#1f2937'
+          }}>
+            {formatTime(seconds)}
+          </Text>
+          <View style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '8px',
+            backgroundColor: '#e5e7eb',
+            borderRadius: '9999px',
+            overflow: 'hidden'
+          }}>
+            <View style={{
+              height: '100%',
+              backgroundColor: '#07C160',
+              width: `${progress}%`,
+              transition: 'width 1s'
+            }} />
           </View>
         </View>
       </View>
 
       {isComplete && (
-        <View className="mt-3 text-center">
+        <View style={{ marginTop: '12px', textAlign: 'center' }}>
           <Button
-            className="px-4 py-2 bg-[#07C160] text-white text-sm font-medium rounded-lg"
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#07C160',
+              color: 'white',
+              fontSize: '14px',
+              fontWeight: '500',
+              borderRadius: '8px'
+            }}
             onClick={start}
           >
             准备好下一组
