@@ -5,7 +5,6 @@ import { format } from 'date-fns';
 import store from '../../store/exerciseStore';
 import templateStore from '../../store/templateStore';
 import workoutStore from '../../store/workoutStore';
-import userStore from '../../store/userStore';
 import type { WorkoutRecord, ExerciseRecord, SetRecord } from '../../types';
 import CountdownTimer from '../../components/CountdownTimer';
 import RestTimeSettings from '../../components/RestTimeSettings';
@@ -15,7 +14,6 @@ export default function Home() {
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
   const [currentWorkout, setCurrentWorkout] = useState<WorkoutRecord | null>(null);
   const [exerciseInputs, setExerciseInputs] = useState<Record<string, { weight: string; reps: string }[]>>({});
-  const [showLoginModal, setShowLoginModal] = useState(false);
   // 倒计时相关状态
   const [restTime, setRestTime] = useState<number>(() => {
     try {
@@ -32,14 +30,8 @@ export default function Home() {
     setIndex: number;
   } | null>(null);
 
-  const user = userStore.getUser();
-
   useEffect(() => {
     store.initializeDefaultExercises();
-
-    if (!userStore.getIsLoggedIn()) {
-      setShowLoginModal(true);
-    }
   }, []);
 
   useEffect(() => {
@@ -49,58 +41,6 @@ export default function Home() {
       console.error('保存休息时间失败', e);
     }
   }, [restTime]);
-
-  const handleLogin = async () => {
-    const result = await userStore.login();
-    if (result.success) {
-      setShowLoginModal(false);
-      wx.showToast({ title: '登录成功', icon: 'success' });
-    }
-  };
-
-  const handleWechatLogin = async () => {
-    const result = await userStore.loginWithWechat();
-    if (result.success) {
-      setShowLoginModal(false);
-      wx.showToast({ title: '登录成功', icon: 'success' });
-    }
-  };
-
-  if (!userStore.getIsLoggedIn() && showLoginModal) {
-    return (
-      <View className="min-h-screen bg-background flex flex-col items-center justify-center px-6">
-        <View className="text-center mb-8">
-          <View className="w-20 h-20 mx-auto mb-4 bg-primary-light rounded-full flex items-center justify-center">
-            <Text className="text-4xl">💪</Text>
-          </View>
-          <Text className="text-xl font-bold text-gray-800 mb-2">欢迎来到健身记录</Text>
-          <Text className="text-gray-400 text-sm">请先登录以使用完整功能</Text>
-        </View>
-
-        <View className="w-full space-y-3">
-          <Button
-            className="w-full py-4 bg-primary text-white font-semibold rounded-xl"
-            onClick={handleWechatLogin}
-          >
-            <View className="flex items-center justify-center gap-2">
-              <Text className="text-lg">📱</Text>
-              <Text>微信快速登录</Text>
-            </View>
-          </Button>
-
-          <Button
-            className="w-full py-4 border border-gray-300 text-gray-600 font-semibold rounded-xl"
-            onClick={handleLogin}
-          >
-            <View className="flex items-center justify-center gap-2">
-              <Text className="text-lg">⚡</Text>
-              <Text>快速登录体验</Text>
-            </View>
-          </Button>
-        </View>
-      </View>
-    );
-  }
 
   const todayWorkout = workoutStore.getTodayWorkout();
   const templates = templateStore.getTemplates();
